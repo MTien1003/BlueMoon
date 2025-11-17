@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
     <div className="min-h-screen flex items-center">
@@ -37,9 +39,9 @@ export default function Home() {
             </div>
 
             {/* Getting Started button */}
-            <button className="px-8 py-4 bg-gradient-to-b from-slate-700 to-slate-900 hover:from-slate-800 hover:to-slate-950 text-white font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+            <Link href="/sign-in" className="px-8 py-4 bg-gradient-to-b from-slate-700 to-slate-900 hover:from-slate-800 hover:to-slate-950 text-white font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
               Getting Started
-            </button>
+            </Link>
           </div>
 
           {/* Right Column - Visual Elements */}
