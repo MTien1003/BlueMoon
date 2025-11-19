@@ -7,7 +7,7 @@ export default function SignInPage() {
   const router = useRouter();
 
   const handleSignIn = () => {
-    router.push("/admin");
+    router.push("/dashboard");
   };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 via-slate-50 to-blue-100 p-4">
