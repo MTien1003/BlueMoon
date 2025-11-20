@@ -1,6 +1,14 @@
+"use client";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function SignInPage() {
+  const router = useRouter();
+
+  const handleSignIn = () => {
+    router.push("/dashboard");
+  };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 via-slate-50 to-blue-100 p-4">
       {/* Main Login Card */}
@@ -69,7 +77,10 @@ export default function SignInPage() {
         </div>
 
         {/* Sign In Button */}
-        <button className="relative w-full bg-gradient-to-b from-gray-700 to-gray-900 text-white font-medium py-3 rounded-lg mb-4 cursor-pointer shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_2px_4px_rgba(0,0,0,0.3),0_1px_0_rgba(0,0,0,0.5)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_3px_6px_rgba(0,0,0,0.4),0_1px_0_rgba(0,0,0,0.6)] active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(0,0,0,0.6)] active:translate-y-[1px] transition-all duration-150">
+        <button 
+          onClick={handleSignIn}
+          className="relative w-full bg-gradient-to-b from-gray-700 to-gray-900 text-white font-medium py-3 rounded-lg mb-4 cursor-pointer shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_2px_4px_rgba(0,0,0,0.3),0_1px_0_rgba(0,0,0,0.5)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_3px_6px_rgba(0,0,0,0.4),0_1px_0_rgba(0,0,0,0.6)] active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(0,0,0,0.6)] active:translate-y-[1px] transition-all duration-150"
+        >
           Sign in
         </button>
 
