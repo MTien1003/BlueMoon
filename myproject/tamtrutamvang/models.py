@@ -1,6 +1,6 @@
 from django.db import models
 
-from myproject.nhankhau.models import NhanKhau
+from nhankhau.models import NhanKhau
 
 # Create your models here.
 class TamTruTamVang(models.Model):

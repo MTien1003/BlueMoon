@@ -1,6 +1,6 @@
 from django.db import models
-from myproject.hokhau.models import HoKhau
-from myproject.khoanthu.models import KhoanThu
+from hokhau.models import HoKhau
+from khoanthu.models import KhoanThu
 # Create your models here.
 class NopTien(models.Model):
     hokhau = models.ForeignKey(HoKhau, on_delete=models.CASCADE)
