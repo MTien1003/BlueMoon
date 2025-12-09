@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-7 align-self-center">
+            <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+                Quản lý Tạm trú - Tạm vắng
+            </h3>
+            <div class="d-flex align-items-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb m-0 p-0">
+                        <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Danh sách</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="col-5 align-self-center">
+            <div class="customize-input float-end">
+                <a href="{% url 'them_moi_tttv' %}" class="btn btn-primary shadow-sm">
+                    <i class="fas fa-plus"></i> Thêm mới hồ sơ
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h4 class="card-title">Danh sách biến động cư trú</h4>
+                    <div class="table-responsive mt-3">
+                        <table class="table table-hover table-bordered">
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <th>Nhân khẩu</th>
+                                    <th>Trạng thái</th>
+                                    <th>Địa chỉ</th>
+                                    <th>Thời gian</th>
+                                    <th>Lý do</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in danh_sach %}
+                                <tr>
+                                    <td><strong>{{ item.nhankhau }}</strong></td>
+                                    <td>
+                                        {% if item.trangthai == 'tam tru' %}
+                                            <span class="badge bg-success rounded-pill">Tạm trú</span>
+                                        {% else %}
+                                            <span class="badge bg-warning text-dark rounded-pill">Tạm vắng</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ item.diachitamtrutamvang }}</td>
+                                    <td>{{ item.thoigian|date:"d/m/Y" }}</td>
+                                    <td>{{ item.noidungdenghi }}</td>
+                                    <td>
+                                        <a href="{% url 'sua_tttv' item.id %}" class="btn btn-sm btn-info text-white">Sửa</a>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted">Chưa có dữ liệu nào.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
