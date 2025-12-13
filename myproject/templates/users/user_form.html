@@ -63,7 +63,15 @@
                                     {% if form.password.errors %}
                                         <div class="text-danger small">{{ form.password.errors }}</div>
                                     {% endif %}
-                                    <small class="form-text text-muted">Để trống nếu không muốn thay đổi mật khẩu.</small>
+                                    {% if form.password.help_text %}
+                                        <small class="form-text text-muted">{{ form.password.help_text }}</small>
+                                    {% else %}
+                                        {% if user %}
+                                            <small class="form-text text-muted">Để trống nếu không muốn thay đổi mật khẩu.</small>
+                                        {% else %}
+                                            <small class="form-text text-danger">* Bắt buộc khi tạo user mới</small>
+                                        {% endif %}
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="col-md-6">

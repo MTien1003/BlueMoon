@@ -47,17 +47,18 @@ class UserForm(forms.ModelForm):
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Nhập mật khẩu (để trống nếu không đổi)'
+            'placeholder': 'Nhập mật khẩu'
         }),
-        required=False,
-        label='Mật khẩu'
+        required=False,  # Sẽ validate trong clean() method
+        label='Mật khẩu',
+        help_text='Bắt buộc khi tạo user mới. Để trống nếu không muốn đổi mật khẩu khi chỉnh sửa.'
     )
     password_confirm = forms.CharField(
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
             'placeholder': 'Xác nhận mật khẩu'
         }),
-        required=False,
+        required=False,  # Sẽ validate trong clean() method
         label='Xác nhận mật khẩu'
     )
 
@@ -86,20 +87,52 @@ class UserForm(forms.ModelForm):
         cleaned_data = super().clean()
         password = cleaned_data.get('password')
         password_confirm = cleaned_data.get('password_confirm')
-
+        
+        # Kiểm tra nếu đang tạo user mới (instance chưa có pk)
+        is_new_user = self.instance.pk is None
+        
+        # Nếu tạo user mới, password là bắt buộc
+        if is_new_user:
+            if not password:
+                raise forms.ValidationError({
+                    'password': 'Mật khẩu là bắt buộc khi tạo user mới.'
+                })
+            if not password_confirm:
+                raise forms.ValidationError({
+                    'password_confirm': 'Vui lòng xác nhận mật khẩu.'
+                })
+        
+        # Kiểm tra password nếu có nhập (tạo mới hoặc đổi mật khẩu)
         if password or password_confirm:
             if password != password_confirm:
-                raise forms.ValidationError('Mật khẩu xác nhận không khớp.')
+                raise forms.ValidationError({
+                    'password_confirm': 'Mật khẩu xác nhận không khớp.'
+                })
             if len(password) < 6:
-                raise forms.ValidationError('Mật khẩu phải có ít nhất 6 ký tự.')
+                raise forms.ValidationError({
+                    'password': 'Mật khẩu phải có ít nhất 6 ký tự.'
+                })
+        elif is_new_user:
+            # Trường hợp này không nên xảy ra vì đã check ở trên, nhưng để chắc chắn
+            raise forms.ValidationError({
+                'password': 'Mật khẩu là bắt buộc khi tạo user mới.'
+            })
 
         return cleaned_data
 
     def save(self, commit=True):
         user = super().save(commit=False)
         password = self.cleaned_data.get('password')
+        
+        # Nếu tạo user mới, password phải có (đã validate trong clean())
+        # Nếu chỉnh sửa, chỉ set password nếu có nhập
         if password:
             user.set_password(password)
+        elif user.pk is None:
+            # Trường hợp này không nên xảy ra vì đã validate trong clean()
+            # Nhưng để chắc chắn, raise error
+            raise ValueError('Password is required when creating a new user.')
+        
         if commit:
             user.save()
         return user
