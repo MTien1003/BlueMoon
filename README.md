@@ -1,125 +1,29 @@
-# BlueMoon - Hệ thống quản lý dân cư
+This is a Next.js project bootstrapped with create-next-app.
 
-Dự án Django quản lý hộ khẩu, nhân khẩu, khoản thu, nộp tiền và tạm trú tạm vắng.
+Getting Started
+First, run the development server:
 
-## Yêu cầu hệ thống
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+Open http://localhost:3000 with your browser to see the result.
 
-- Python 3.8 trở lên
-- PostgreSQL (hoặc có thể chuyển sang SQLite)
-- pip (Python package manager)
+You can start editing the page by modifying app/page.tsx. The page auto-updates as you edit the file.
 
-## Hướng dẫn cài đặt và chạy
+This project uses next/font to automatically optimize and load Geist, a new font family for Vercel.
 
-### Bước 1: Cài đặt PostgreSQL (nếu chưa có)
+Learn More
+To learn more about Next.js, take a look at the following resources:
 
-1. Tải và cài đặt PostgreSQL từ: https://www.postgresql.org/download/
-2. Trong quá trình cài đặt, ghi nhớ mật khẩu bạn đặt cho user `postgres`
-3. Tạo database tên `bluemoon`:
-   ```sql
-   CREATE DATABASE bluemoon;
-   ```
+Next.js Documentation - learn about Next.js features and API.
+Learn Next.js - an interactive Next.js tutorial.
+You can check out the Next.js GitHub repository - your feedback and contributions are welcome!
 
-**Lưu ý:** Nếu bạn muốn dùng SQLite thay vì PostgreSQL, có thể sửa file `settings.py` (xem phần cuối).
+Deploy on Vercel
+The easiest way to deploy your Next.js app is to use the Vercel Platform from the creators of Next.js.
 
-### Bước 2: Tạo và kích hoạt môi trường ảo (Virtual Environment)
-
-Mở PowerShell hoặc Command Prompt và chạy:
-
-```powershell
-# Di chuyển vào thư mục dự án
-cd C:\BlueMoon\myproject
-
-# Tạo môi trường ảo
-python -m venv venv
-
-# Kích hoạt môi trường ảo
-# Trên Windows PowerShell:
-.\venv\Scripts\Activate.ps1
-# Hoặc trên Command Prompt:
-.\venv\Scripts\activate.bat
-```
-
-### Bước 3: Cài đặt các thư viện cần thiết
-
-```powershell
-pip install -r requirements.txt
-```
-
-### Bước 4: Cấu hình database
-
-Mở file `myproject/settings.py` và kiểm tra thông tin database:
-
-```python
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'bluemoon',
-        'USER': 'postgres',
-        'PASSWORD': '123456',  # Đổi thành mật khẩu PostgreSQL của bạn
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-```
-
-**Nếu muốn dùng SQLite (không cần PostgreSQL):**
-
-Thay đổi cấu hình database trong `settings.py`:
-
-```python
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-```
-
-### Bước 5: Chạy migrations
-
-```powershell
-python manage.py migrate
-```
-
-### Bước 6: Tạo superuser (tùy chọn)
-
-Để truy cập trang admin:
-
-```powershell
-python manage.py createsuperuser
-```
-
-Nhập username, email và password khi được yêu cầu.
-
-### Bước 7: Chạy server
-
-```powershell
-python manage.py runserver
-```
-
-### Bước 8: Truy cập ứng dụng
-
-Mở trình duyệt và truy cập:
-- Trang chủ: http://127.0.0.1:8000/
-- Trang admin: http://127.0.0.1:8000/admin/
-
-## Cấu trúc dự án
-
-- `hokhau/` - Quản lý hộ khẩu
-- `nhankhau/` - Quản lý nhân khẩu
-- `khoanthu/` - Quản lý khoản thu
-- `noptien/` - Quản lý nộp tiền
-- `tamtrutamvang/` - Quản lý tạm trú tạm vắng
-- `users/` - Quản lý người dùng
-- `home/` - Trang chủ
-
-## Xử lý lỗi thường gặp
-
-### Lỗi: "ModuleNotFoundError: No module named 'django'"
-- Giải pháp: Đảm bảo bạn đã kích hoạt môi trường ảo và cài đặt requirements.txt
-
-### Lỗi: "could not connect to server"
-- Giải pháp: Kiểm tra PostgreSQL đã chạy chưa, và thông tin kết nối trong settings.py
-
-### Lỗi: "database does not exist"
-- Giải pháp: Tạo database `bluemoon` trong PostgreSQL hoặc chuyển sang SQLite
+Check out our Next.js deployment documentation for more details.
