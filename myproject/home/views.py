@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from nhankhau.services import get_total_nhankhau
 
 def home(request):
-    return render(request, 'index.html')
+    total_nhankhau = get_total_nhankhau()
+    return render(request, 'index.html', {'total_nhankhau': total_nhankhau})
