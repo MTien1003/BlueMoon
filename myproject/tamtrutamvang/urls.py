@@ -3,11 +3,11 @@ from . import views
 
 urlpatterns = [
     # Đường dẫn xem danh sách
-    path('tam-tru-tam-vang/', views.danh_sach_tam_tru_tam_vang, name='danh_sach_tttv'),
+    path('tamtrutamvang/', views.danh_sach_tam_tru_tam_vang, name='danh_sach_tttv'),
     
     # Đường dẫn thêm mới
-    path('tam-tru-tam-vang/them/', views.them_moi_tttv, name='them_moi_tttv'),
+    path('tamtrutamvang/them/', views.them_moi_tttv, name='them_moi_tttv'),
     
     # Đường dẫn sửa
-    path('tam-tru-tam-vang/sua/<int:id>/', views.sua_tttv, name='sua_tttv'),
+    path('tamtrutamvang/sua/<int:id>/', views.sua_tttv, name='sua_tttv'),
 ]
