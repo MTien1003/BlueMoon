@@ -38,20 +38,24 @@
     </div>
 
     <div class="title">
-        PHIẾU KHAI BÁO 
+        ĐƠN XIN ĐĂNG KÍ
         {% if item.trangthai == 'tam tru' %}TẠM TRÚ{% else %}TẠM VẮNG{% endif %}
     </div>
 
     <div class="content">
         <div class="row-info">
-            <span class="label">Kính gửi:</span> Ban quản trị Chung cư BlueMoon
+            <span class="label">Kính gửi:</span> Công an xã/phường/thị trấn
         </div>
         <div class="row-info">
             <span class="label">Tôi tên là:</span> {{ item.nhankhau.hoten }}
         </div>
         <div class="row-info">
             <span class="label">Ngày sinh:</span> {{ item.nhankhau.ngaysinh|date:"d/m/Y" }} &nbsp;&nbsp;&nbsp;&nbsp;
-            <span class="label">CCCD/CMND:</span> {{ item.nhankhau.cccd }}
+        </div>
+        <div class="row-info">
+            <span class="label">Số CCCD/CMND:</span> {{ item.nhankhau.cccd }}
+            <span class="label">Cấp tại:..................</span>
+            <span class="label">Ngày:..................</span>
         </div>
         <div class="row-info">
             <span class="label">Nội dung đề nghị:</span> Đăng ký 
