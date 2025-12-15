@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block update_nhankhau %}
+<div class="page-wrapper">
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-7 align-self-center">
+                <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Cập Nhật Nhân Khẩu</h4>
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb m-0 p-0">
+                            <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-muted">Trang chủ</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'nhankhau' %}" class="text-muted">Nhân khẩu</a></li>
+                            <li class="breadcrumb-item text-muted active" aria-current="page">Cập Nhật Nhân Khẩu</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="post" action="{% url 'update_nhankhau' nhankhau.id %}">
+                            {% csrf_token %}
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label for="ho_ten" class="form-label">Họ và Tên</label>
+                                            <input type="text" id="hoten" name="hoten" class="form-control" placeholder="Nhập họ và tên" value="{{ nhankhau.hoten }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label for="ngay_sinh" class="form-label">Ngày Sinh</label>
+                                            <input type="date" id="ngaysinh" name="ngaysinh" class="form-control" value="{{ nhankhau.ngaysinh|date:'Y-m-d' }}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group mb-3">
+                                            <label for="gioi_tinh" class="form-label">Giới Tính</label>
+                                            <select id="gioitinh" name="gioitinh" class="form-control" required>
+                                                <option value="">Chọn giới tính</option>
+                                                <option value="Nam" {% if nhankhau.gioitinh == "Nam" %}selected{% endif %}>Nam</option>
+                                                <option value="Nữ" {% if nhankhau.gioitinh == "Nữ" %}selected{% endif %}>Nữ</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group mb-3">
+                                            <label for="dan_toc" class="form-label">Dân Tộc</label>
+                                            <input type="text" id="dantoc" name="dantoc" class="form-control" placeholder="Ví dụ: Kinh, Tày" value="{{ nhankhau.dantoc }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group mb-3">
+                                            <label for="ton_giao" class="form-label">Tôn Giáo</label>
+                                            <input type="text" id="tongiao" name="tongiao" class="form-control" placeholder="Ví dụ: Không, Phật giáo" value="{{ nhankhau.tongiao }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group mb-3">
+                                            <label for="so_cmnd" class="form-label">Số CMND/CCCD</label>
+                                            <input type="text" id="cccd" name="cccd" class="form-control" placeholder="Nhập số CMND/CCCD" value="{{ nhankhau.cccd }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group mb-3">
+                                            <label for="ngay_cap" class="form-label">Ngày cấp</label>
+                                            <input type="date" id="ngaycap" name="ngaycap" class="form-control" value="{{ nhankhau.ngaycap|date:'Y-m-d' }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group mb-3">
+                                            <label for="noi_cap" class="form-label">Nơi cấp</label>
+                                            <input type="text" id="noicap" name="noicap" class="form-control" placeholder="Ví dụ: Công an Hà Nội" value="{{ nhankhau.noicap }}" required>
+                                        </div>
+                                    </div>
+                                </div>
+            
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label for="nghe_nghiep" class="form-label">Nghề Nghiệp</label>
+                                            <input type="text" id="nghenghiep" name="nghenghiep" class="form-control" placeholder="Nhập nghề nghiệp" value="{{ nhankhau.nghenghiep }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label for="ghi_chu" class="form-label">Ghi chú</label>
+                                            <input type="text" id="ghichu" name="ghichu" class="form-control" placeholder="Nhập ghi chú" value="{{ nhankhau.ghichu }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <div class="text-end">
+                                    <button type="submit" class="btn btn-info">Cập Nhật Nhân Khẩu</button>
+                                    <a href="{% url 'nhankhau' %}" class="btn btn-dark">Hủy</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

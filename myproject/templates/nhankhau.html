@@ -9,19 +9,23 @@
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-muted">Apps</a></li>
+                                    <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-muted">Trang chủ</a></li>
                                     <li class="breadcrumb-item text-muted active" aria-current="page">Nhân khẩu</li>
                                 </ol>
                             </nav>
                         </div>
                     </div>
-                    <div class="col-5 align-self-center">
-                        <div class="customize-input float-end">
-                            <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
-                                <option selected>Aug 23</option>
-                                <option value="1">July 23</option>
-                                <option value="2">Jun 23</option>
-                            </select>
+                    
+                    <div class="col-5 align-self-center d-flex gap-2 justify-content-start ">
+                        <form class="d-flex align-items-center">
+                            <div class="customize-input  " >
+                                <input class="form-control custom-shadow custom-radius border-0 bg-white"
+                                    type="search" style="width: 260px" placeholder="Tìm theo Tên hoặc CCCD" aria-label="Search" name="q" value="{{ query }}">
+                                
+                            </div>
+                        </form>
+                        <div>
+                            <button type="button"class="btn waves-effect waves-light btn-rounded btn-outline-success " onclick="location.href='{% url 'create_nhankhau' %}'">Thêm nhân khẩu</button>
                         </div>
                     </div>
                 </div>
@@ -31,45 +35,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <div class="row">
-                                    <!-- Column -->
-                                    <div class="col-md-6 col-lg-3 col-xlg-3">
-                                        <div class="card card-hover">
-                                            <div class="p-2 bg-primary text-center">
-                                                <h1 class="font-light text-white">2,064</h1>
-                                                <h6 class="text-white">Total Tickets</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Column -->
-                                    <div class="col-md-6 col-lg-3 col-xlg-3">
-                                        <div class="card card-hover">
-                                            <div class="p-2 bg-cyan text-center">
-                                                <h1 class="font-light text-white">1,738</h1>
-                                                <h6 class="text-white">Responded</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Column -->
-                                    <div class="col-md-6 col-lg-3 col-xlg-3">
-                                        <div class="card card-hover">
-                                            <div class="p-2 bg-success text-center">
-                                                <h1 class="font-light text-white">1100</h1>
-                                                <h6 class="text-white">Resolve</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Column -->
-                                    <div class="col-md-6 col-lg-3 col-xlg-3">
-                                        <div class="card card-hover">
-                                            <div class="p-2 bg-danger text-center">
-                                                <h1 class="font-light text-white">964</h1>
-                                                <h6 class="text-white">Pending</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Column -->
-                                </div>
+                                
                                 <div class="table-responsive">
                                     <table id="zero_config" class="table table-striped table-bordered no-wrap">
                                         <thead>
@@ -83,14 +49,25 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            {% for nhankhau in nhankhaus %}
                                             <tr>
-                                                <td><span class="fs-6">1</span></td>
-                                                <td><a href="javascript:void(0)" class="font-weight-medium link">Nguyễn Mạnh Tiến</a></td>
-                                                <td>10/03/2005</td>
-                                                <td>Nam</td>
-                                                <td>09675831312312</td>
-                                                <td>Trống</td>
+                                                <td>{{ nhankhau.id }}</td>
+                                                <td><a href="javascript:void(0)" class="font-weight-medium link">{{ nhankhau.hoten }}</a></td>
+                                                <td>{{ nhankhau.ngaysinh|date:"d/m/Y" }}</td>
+                                                <td>{{ nhankhau.gioitinh }}</td>
+                                                <td>{{ nhankhau.cccd }}</td>
+                                                <td>
+                                                    <div class="d-flex gap-1">
+                                                        <a href="{% url 'xem_nhankhau' nhankhau.id %}" class="btn waves-effect waves-light btn-rounded btn-outline-primary btn-sm flex-fill">Xem</a>
+                                                        <a href="{% url 'update_nhankhau' nhankhau.id %}" class="btn waves-effect waves-light btn-rounded btn-outline-warning btn-sm flex-fill">Cập nhật</a>
+                                                    </div>
+                                                </td>
                                             </tr>
+                                            {% empty %}
+                                            <tr>
+                                                <td colspan="6" class="text-center">Chưa có dữ liệu nhân khẩu.</td>
+                                            </tr>
+                                            {% endfor %}
                                         </tbody>
                                     </table>
                                     <ul class="pagination float-end">
@@ -116,3 +93,4 @@
     </div>
 
 {% endblock nhankhau-content %}
+
