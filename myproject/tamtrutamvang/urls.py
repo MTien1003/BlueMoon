@@ -10,4 +10,6 @@ urlpatterns = [
     
     # Đường dẫn sửa
     path('tamtrutamvang/sua/<int:id>/', views.sua_tttv, name='sua_tttv'),
+
+    path('in-phieu/<int:id>/', views.in_phieu_tttv, name='in_phieu_tttv'),
 ]

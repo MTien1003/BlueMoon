@@ -37,3 +37,10 @@ def sua_tttv(request, id):
         form = TamTruTamVangForm(instance=ho_so)
         
     return render(request, 'tam_tru_tam_vang/form.html', {'form': form, 'title': 'Cập nhật hồ sơ'})
+
+def in_phieu_tttv(request, id):
+    # Lấy hồ sơ theo ID
+    ho_so = get_object_or_404(TamTruTamVang, pk=id)
+    
+    # Trả về giao diện in riêng biệt
+    return render(request, 'tam_tru_tam_vang/print.html', {'item': ho_so})

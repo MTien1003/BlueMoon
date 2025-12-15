@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>In Phiếu Tạm Trú Tạm Vắng</title>
+    <style>
+        body { font-family: "Times New Roman", Times, serif; padding: 40px; line-height: 1.6; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h3, .header h4 { margin: 5px 0; }
+        .title { text-align: center; margin: 40px 0; font-weight: bold; font-size: 24px; }
+        .content { margin-top: 20px; font-size: 14pt; }
+        .row-info { margin-bottom: 15px; }
+        .label { font-weight: bold; }
+        .signature { margin-top: 50px; display: flex; justify-content: space-between; text-align: center; }
+        
+        /* Nút in sẽ ẩn đi khi in ra giấy */
+        @media print {
+            .no-print { display: none; }
+        }
+        .btn-print {
+            padding: 10px 20px; background: #2c3e50; color: white; 
+            border: none; cursor: pointer; border-radius: 5px; font-size: 16px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div style="text-align: right;">
+        <button onclick="window.print()" class="btn-print no-print">🖨️ In phiếu này</button>
+        <button onclick="window.history.back()" class="btn-print no-print" style="background: #95a5a6;">Quay lại</button>
+    </div>
+
+    <div class="header">
+        <h3>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</h3>
+        <h4>Độc lập - Tự do - Hạnh phúc</h4>
+        <hr style="width: 200px; border-top: 2px solid black;">
+    </div>
+
+    <div class="title">
+        PHIẾU KHAI BÁO 
+        {% if item.trangthai == 'tam tru' %}TẠM TRÚ{% else %}TẠM VẮNG{% endif %}
+    </div>
+
+    <div class="content">
+        <div class="row-info">
+            <span class="label">Kính gửi:</span> Ban quản trị Chung cư BlueMoon
+        </div>
+        <div class="row-info">
+            <span class="label">Tôi tên là:</span> {{ item.nhankhau.hoten }}
+        </div>
+        <div class="row-info">
+            <span class="label">Ngày sinh:</span> {{ item.nhankhau.ngaysinh|date:"d/m/Y" }} &nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="label">CCCD/CMND:</span> {{ item.nhankhau.cccd }}
+        </div>
+        <div class="row-info">
+            <span class="label">Nội dung đề nghị:</span> Đăng ký 
+            {% if item.trangthai == 'tam tru' %}tạm trú{% else %}tạm vắng{% endif %}
+        </div>
+        <div class="row-info">
+            <span class="label">Địa chỉ {% if item.trangthai == 'tam tru' %}thường trú{% else %}nơi đến{% endif %}:</span> 
+            {{ item.diachitamtrutamvang }}
+        </div>
+        <div class="row-info">
+            <span class="label">Thời gian bắt đầu:</span> {{ item.thoigian|date:"d/m/Y" }}
+        </div>
+        <div class="row-info">
+            <span class="label">Lý do / Ghi chú:</span> {{ item.noidungdenghi }}
+        </div>
+    </div>
+
+    <div class="signature">
+        <div>
+            <p><strong>Cán bộ tiếp nhận</strong></p>
+            <p><em>(Ký và ghi rõ họ tên)</em></p>
+        </div>
+        <div>
+            <p><em>Ngày ...... tháng ...... năm 20......</em></p>
+            <p><strong>Người làm đơn</strong></p>
+            <p><em>(Ký và ghi rõ họ tên)</em></p>
+            <br><br><br>
+            <p>{{ item.nhankhau.hoten }}</p>
+        </div>
+    </div>
+
+</body>
+</html>

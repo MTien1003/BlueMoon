@@ -58,9 +58,13 @@
                                     </td>
                                     <td>{{ item.diachitamtrutamvang }}</td>
                                     <td>{{ item.thoigian|date:"d/m/Y" }}</td>
-                                    <td>{{ item.noidungdenghi }}</td>
+                                    <td>{{ item.noidungdenghi }}</td>   
                                     <td>
-                                        <a href="{% url 'sua_tttv' item.id %}" class="btn btn-sm btn-info text-white">Sửa</a>
+                                        <a href="{% url 'sua_tttv' item.id %}" class="btn btn-sm btn-info text-white" title="Sửa">
+                                            <i class="fas fa-edit"></i> </a>
+                                        
+                                        <a href="{% url 'in_phieu_tttv' item.id %}" class="btn btn-sm btn-secondary" title="In phiếu" target="_blank">
+                                            <i data-feather="printer"></i> In </a>
                                     </td>
                                 </tr>
                                 {% empty %}
