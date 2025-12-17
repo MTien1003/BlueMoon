@@ -1,0 +1,45 @@
+# =============================
+
+# .gitignore cho Django (đã sửa lỗi)
+
+# =============================
+
+# Python cache
+
+**pycache**/
+*.pyc
+
+# Virtual environment
+
+env/
+venv/
+.venv/
+
+# Django database (SQLite)
+
+db.sqlite3
+
+# Logs
+
+*.log
+
+# Environment variables
+
+.env
+
+# OS files
+
+.DS_Store
+Thumbs.db
+
+# IDE / Editor
+
+.vscode/
+.idea/
+.cursor/
+
+# =============================
+
+# End of file
+
+# =============================
