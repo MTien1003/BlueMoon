@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.utils import timezone
 from .models import NopTien
 from hokhau.models import HoKhau
 from khoanthu.models import KhoanThu
@@ -21,7 +22,8 @@ def create_hoadon(request):
     khoanthus = KhoanThu.objects.order_by('tenkhoanthu')
 
     if request.method == 'POST':
-        ho_khau = HoKhau.objects.get(id=request.POST['hokhau'])
+        hokhau_id = request.POST.get('hokhau')
+        ho_khau = HoKhau.objects.get(id=hokhau_id) if hokhau_id else None
         khoan_thu = KhoanThu.objects.get(id=request.POST['khoanthu'])
         hoadon = NopTien(
             hokhau=ho_khau,
@@ -38,3 +40,20 @@ def create_hoadon(request):
         'khoanthus': khoanthus,
     }
     return render(request, 'create_hoadon.html', context)
+
+
+def xacnhan_thanh_toan(request, id):
+    """
+    Xác nhận thanh toán cho một hóa đơn:
+    - Cập nhật ngày nộp = ngày hiện tại
+    - Quay lại danh sách hóa đơn
+    """
+    hoadon = get_object_or_404(NopTien, id=id)
+
+    if request.method == 'POST':
+        hoadon.ngaynop = timezone.now().date()
+        hoadon.save()
+        return redirect('hoadon')
+
+    # Nếu ai đó truy cập GET, cứ chuyển về danh sách để tránh lỗi
+    return redirect('hoadon')
