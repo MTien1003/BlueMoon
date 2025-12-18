@@ -43,7 +43,7 @@
                                                 <th>Số tiền</th>
                                                 <th>Ngày tạo</th>
                                                 <th>Thời hạn</th>
-                                                <th>Bắt buộc</th>
+                                                <th class="text-center align-middle">Bắt buộc</th>
                                                 <th>Ghi chú</th>
                                                 <th>Thao tác</th>
                                             </tr>
@@ -55,8 +55,8 @@
                                                 <td><a href="javascript:void(0)" class="font-weight-medium link">{{ khoanthu.tenkhoanthu }}</a></td>
                                                 <td>{{ khoanthu.sotien|floatformat:0 }} VND</td>
                                                 <td>{{ khoanthu.ngaytao|date:"d/m/Y" }}</td>
-                                                <td>{{ khoanthu.thoihan|date:"d/m/Y" }}</td>
-                                                <td>
+                                                <td class="align-middle">{{ khoanthu.thoihan|date:"d/m/Y" }}</td>
+                                                <td class="text-center align-middle">
                                                     {% if khoanthu.batbuoc %}
                                                         <span class="badge bg-danger">Bắt buộc</span>
                                                     {% else %}

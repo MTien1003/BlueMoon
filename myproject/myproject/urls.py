@@ -22,4 +22,5 @@ urlpatterns = [
     path('', include('home.urls')),
     path('nhankhau/', include('nhankhau.urls')),
     path('khoanthu/', include('khoanthu.urls')),
+    path('hoadon/', include('noptien.urls')),
 ]

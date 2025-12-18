@@ -131,6 +131,11 @@
                                     class="hide-menu">Khoản thu
                                 </span></a>
                         </li>
+                        <li class="sidebar-item"> <a class="sidebar-link" href="{% url 'hoadon' %}"
+                                aria-expanded="false"><i data-feather="file-text" class="feather-icon"></i><span
+                                    class="hide-menu">Hóa đơn
+                                </span></a>
+                        </li>
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="app-chat.html"
                                 aria-expanded="false"><i data-feather="message-square" class="feather-icon"></i><span
                                     class="hide-menu">Chat</span></a></li>
@@ -342,6 +347,7 @@
         {% block xem_nhankhau %}{% endblock xem_nhankhau %}
         {% block update_nhankhau %}{% endblock update_nhankhau %}
         {% block khoanthu-content %}{% endblock khoanthu-content %}
+        {% block hoadon-content %}{% endblock hoadon-content %}
     </div>
 
     <script src="{% static 'assets/libs/jquery/dist/jquery.min.js' %}"></script>
