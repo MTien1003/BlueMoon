@@ -15,6 +15,17 @@
                             </nav>
                         </div>
                     </div>
+                    <div class="col-5 align-self-center d-flex gap-2 justify-content-start ">
+                        {% url 'create_khoanthu' as create_khoanthu_url %}
+                        <div>
+                            <button
+                                type="button"
+                                class="btn waves-effect waves-light btn-rounded btn-outline-success "
+                                onclick="location.href='{{ create_khoanthu_url }}'">
+                                Thêm khoản thu
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="container-fluid">
