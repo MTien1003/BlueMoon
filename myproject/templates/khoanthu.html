@@ -15,7 +15,7 @@
                             </nav>
                         </div>
                     </div>
-                    <div class="col-5 align-self-center d-flex gap-2 justify-content-start ">
+                    <div class="col-5 align-self-center d-flex gap-2 justify-content-end">
                         {% url 'create_khoanthu' as create_khoanthu_url %}
                         <div>
                             <button
@@ -45,6 +45,7 @@
                                                 <th>Thời hạn</th>
                                                 <th>Bắt buộc</th>
                                                 <th>Ghi chú</th>
+                                                <th>Thao tác</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -63,10 +64,16 @@
                                                     {% endif %}
                                                 </td>
                                                 <td>{{ khoanthu.ghichu|default:"-" }}</td>
+                                                <td>
+                                                    <div class="d-flex gap-1">
+                                                        <a href="{% url 'xem_khoanthu' khoanthu.id %}" class="btn waves-effect waves-light btn-rounded btn-outline-primary btn-sm flex-fill">Xem</a>
+                                                        <a href="{% url 'update_khoanthu' khoanthu.id %}" class="btn waves-effect waves-light btn-rounded btn-outline-warning btn-sm flex-fill">Cập nhật</a>
+                                                    </div>
+                                                </td>
                                             </tr>
                                             {% empty %}
                                             <tr>
-                                                <td colspan="7" class="text-center">Chưa có dữ liệu khoản thu.</td>
+                                                <td colspan="8" class="text-center">Chưa có dữ liệu khoản thu.</td>
                                             </tr>
                                             {% endfor %}
                                         </tbody>
