@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block khoanthu-content %}
+        <div class="page-wrapper">
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-7 align-self-center">
+                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Khoản thu</h4>
+                        <div class="d-flex align-items-center">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb m-0 p-0">
+                                    <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-muted">Trang chủ</a></li>
+                                    <li class="breadcrumb-item text-muted active" aria-current="page">Khoản thu</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                
+                                <div class="table-responsive">
+                                    <table id="zero_config" class="table table-striped table-bordered no-wrap">
+                                        <thead>
+                                            <tr>
+                                                <th>STT</th>
+                                                <th>Tên khoản thu</th>
+                                                <th>Số tiền</th>
+                                                <th>Ngày tạo</th>
+                                                <th>Thời hạn</th>
+                                                <th>Bắt buộc</th>
+                                                <th>Ghi chú</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for khoanthu in khoanthus %}
+                                            <tr>
+                                                <td>{{ khoanthu.id }}</td>
+                                                <td><a href="javascript:void(0)" class="font-weight-medium link">{{ khoanthu.tenkhoanthu }}</a></td>
+                                                <td>{{ khoanthu.sotien|floatformat:0 }} VND</td>
+                                                <td>{{ khoanthu.ngaytao|date:"d/m/Y" }}</td>
+                                                <td>{{ khoanthu.thoihan|date:"d/m/Y" }}</td>
+                                                <td>
+                                                    {% if khoanthu.batbuoc %}
+                                                        <span class="badge bg-danger">Bắt buộc</span>
+                                                    {% else %}
+                                                        <span class="badge bg-success">Tự nguyện</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ khoanthu.ghichu|default:"-" }}</td>
+                                            </tr>
+                                            {% empty %}
+                                            <tr>
+                                                <td colspan="7" class="text-center">Chưa có dữ liệu khoản thu.</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock khoanthu-content %}
+
