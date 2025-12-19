@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block lich_su_hokhau %}
+<div class="page-wrapper">
+    <div class="container-fluid">
+        <div class="mb-3">
+            <a href="{% url 'xem_hokhau' hokhau.id %}" class="btn btn-dark btn-rounded px-4">
+                <i class="fas fa-arrow-left"></i> Quay lại chi tiết hộ khẩu
+            </a>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h4 class="card-title">Lịch sử thay đổi: Hộ khẩu {{ hokhau.sohokhau }}</h4>
+                        <p class="card-subtitle mb-4">Chủ hộ: <strong>{{ hokhau.chuhokhau.hoten }}</strong></p>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered">
+                                <thead class="bg-light text-dark">
+                                    <tr>
+                                        <th>Thời gian</th>
+                                        <th>Thành viên tác động</th>
+                                        <th>Loại thay đổi</th>
+                                        <th>Ghi chú</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for history in history_list %}
+                                    <tr>
+                                        <td>{{ history.ngaythaydoi|date:"H:i - d/m/Y" }}</td>
+                                        <td>
+                                            <strong>{{ history.nhankhau.hoten }}</strong><br>
+                                            <small class="text-muted">CCCD: {{ history.nhankhau.cccd }}</small>
+                                        </td>
+                                        <td>
+                                            {% if history.loaithaydoi == 1 %}
+                                                <span class="badge badge-success px-3 py-2">
+                                                    <i class="fas fa-user-plus"></i> Thêm thành viên
+                                                </span>
+                                            {% elif history.loaithaydoi == 2 %}
+                                                <span class="badge badge-danger px-3 py-2">
+                                                    <i class="fas fa-user-minus"></i> Xóa thành viên
+                                                </span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if history.loaithaydoi == 1 %}
+                                                Nhập khẩu mới vào căn hộ
+                                            {% else %}
+                                                Chuyển đi hoặc xóa khỏi hộ khẩu
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="4" class="text-center py-4 text-muted">
+                                            Chưa có bản ghi lịch sử thay đổi nào cho hộ khẩu này.
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock lich_su_hokhau %}
