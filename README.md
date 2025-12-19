@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BlueMoon - Hệ thống Quản lý Dân cư
 
-## Getting Started
+Dự án **BlueMoon** là một ứng dụng web được xây dựng trên nền tảng **Django Framework**, được thiết kế để hỗ trợ công tác quản lý dân cư, hộ khẩu và các khoản đóng góp tại địa phương một cách hiệu quả và trực quan.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Tính năng chính
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Hệ thống được chia thành các phân hệ (Apps) chuyên biệt:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+* **Quản lý Nhân khẩu (`nhankhau`)**:
+    * Thêm mới, cập nhật thông tin nhân khẩu.
+    * Khai báo khai sinh, khai tử.
+    * Thống kê nhân khẩu theo các tiêu chí.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+* **Quản lý Hộ khẩu (`hokhau`)**:
+    * Đăng ký sổ hộ khẩu mới.
+    * Tách khẩu, chuyển hộ khẩu đi/đến.
+    * Thay đổi chủ hộ.
 
-## Learn More
+* **Quản lý Tạm trú & Tạm vắng (`tamtrutamvang`)**:
+    * Đăng ký tạm trú cho người từ nơi khác đến.
+    * Khai báo tạm vắng cho người địa phương đi vắng.
 
-To learn more about Next.js, take a look at the following resources:
+* **Quản lý Thu phí & Đóng góp (`khoanthu`, `noptien`)**:
+    * Thiết lập các khoản thu (bắt buộc, tự nguyện).
+    * Ghi nhận lịch sử đóng tiền của từng hộ.
+    * Thống kê tình hình nộp phí.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* **Hệ thống & Người dùng (`users`, `home`)**:
+    * Đăng nhập, đăng xuất, phân quyền quản trị.
+    * Dashboard tổng quan với biểu đồ thống kê (sử dụng Chart.js/Morris.js).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🛠 Yêu cầu hệ thống
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Để chạy được dự án, máy tính cần cài đặt:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+* **Python**: Phiên bản 3.8 trở lên.
+* **Django**: Phiên bản 3.x hoặc 4.x.
+* **Cơ sở dữ liệu**: SQLite (mặc định) hoặc MySQL/PostgreSQL.
+
+---
+
+## ⚙️ Hướng dẫn cài đặt & Chạy dự án
+
+Thực hiện các bước sau trong Terminal hoặc Command Prompt:
+
+### Bước 1: Clone dự án hoặc giải nén
+
+git clone [https://github.com/mtien1003/bluemoon.git](https://github.com/mtien1003/bluemoon.git)
+cd bluemoon
+cd myproject
+
+Bước 2: Tạo môi trường ảo (Virtual Environment) - Khuyến nghị
+
+
+# Windows
+python -m venv venv
+venv\Scripts\activate
+
+# macOS/Linux
+python3 -m venv venv
+source venv/bin/activate
+
+Bước 3: Cài đặt các thư viện phụ thuộc
+Nếu dự án có file requirements.txt:
+
+pip install -r requirements.txt
+
+Nếu chưa có file requirements, hãy cài Django thủ công:
+
+pip install django
+
+Bước 4: Khởi tạo Cơ sở dữ liệu (Database)
+Tạo các bảng dữ liệu cần thiết:
+
+python manage.py makemigrations
+python manage.py migrate
+
+Bước 5: Tạo tài khoản Quản trị viên (Superuser)
+Tài khoản này dùng để đăng nhập vào trang quản trị /admin:
+
+python manage.py createsuperuser
+
+Bước 6: Khởi chạy Server
+
+python manage.py runserver
+
+Sau khi chạy thành công, mở trình duyệt và truy cập:
+
+Trang chủ: http://127.0.0.1:8000/
+
+Trang quản trị: http://127.0.0.1:8000/admin/
