@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block create_hokhau %}
+<div class="page-wrapper">
+    <div class="container-fluid">
+        <form method="POST" id="hokhauForm">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title text-primary">Thông tin Hộ Khẩu</h4>
+                            <div class="form-group mb-3">
+                                <label>Số hộ khẩu</label>
+                                <input type="text" name="sohokhau" class="form-control" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label>Chủ hộ</label>
+                                <select name="chuhokhau" class="form-control" required>
+                                    <option value="">-- Chọn chủ hộ --</option>
+                                    {% for nk in nhankhau_list %}
+                                        <option value="{{ nk.id }}">{{ nk.hoten }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 mb-3"><label>Số nhà</label><input type="text" name="sonha" class="form-control"></div>
+                                <div class="col-6 mb-3"><label>Đường</label><input type="text" name="duong" class="form-control"></div>
+                                <div class="col-6 mb-3"><label>Phường</label><input type="text" name="phuong" class="form-control"></div>
+                                <div class="col-6 mb-3"><label>Quận</label><input type="text" name="quan" class="form-control"></div>
+                                <div class="col-12 mb-3"><label>Ngày lập</label><input type="date" name="ngaylamhokhau" class="form-control" required></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-7">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <h4 class="card-title text-primary mb-0">Thành viên trong hộ</h4>
+                                <button type="button" class="btn btn-success btn-sm ml-auto" onclick="addThanhVien()">
+                                    <i class="fas fa-plus"></i> Thêm thành viên
+                                </button>
+                            </div>
+                            
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="thanhVienTable">
+                                    <thead class="bg-light">
+                                        <tr>
+                                            <th style="width: 50%;">Họ tên nhân khẩu</th>
+                                            <th>Quan hệ với chủ hộ</th>
+                                            <th style="width: 50px;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="thanhVienBody">
+                                        </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-right mt-3">
+                        <button type="submit" class="btn btn-primary px-5">Lưu Hộ Khẩu</button>
+                        <a href="{% url 'hokhau' %}" class="btn btn-dark">Hủy</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function addThanhVien() {
+        const tbody = document.getElementById('thanhVienBody');
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>
+                <select name="thanhvien_id[]" class="form-control" required>
+                    <option value="">-- Chọn nhân khẩu --</option>
+                    {% for nk in nhankhau_list %}
+                        <option value="{{ nk.id }}">{{ nk.hoten }} ({{ nk.cccd }})</option>
+                    {% endfor %}
+                </select>
+            </td>
+            <td>
+                <input type="text" name="quanhe[]" class="form-control" placeholder="Vợ, con, em..." required>
+            </td>
+            <td>
+                <button type="button" class="btn btn-danger btn-sm" onclick="this.parentElement.parentElement.remove()">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        `;
+        tbody.appendChild(row);
+    }
+</script>
+{% endblock create_hokhau %}

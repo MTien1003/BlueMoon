@@ -20,7 +20,12 @@ from django.urls import include, path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
+    path('', include('tamtrutamvang.urls')),
     path('nhankhau/', include('nhankhau.urls')),
+<<<<<<< HEAD
     path('khoanthu/', include('khoanthu.urls')),
     path('hoadon/', include('noptien.urls')),
+=======
+    path('hokhau/', include('hokhau.urls')),
+>>>>>>> ed0e144f788249b5db9e7242a967eb08eb29d6df
 ]

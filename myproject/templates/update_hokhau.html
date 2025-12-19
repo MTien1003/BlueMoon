@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% block update_hokhau %}
+<div class="page-wrapper">
+    <div class="container-fluid">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h4 class="card-title text-warning">Chỉnh sửa Hộ Khẩu: {{ hokhau.sohokhau }}</h4>
+                            
+                            <div class="form-group mb-3">
+                                <label class="font-weight-bold">Số hộ khẩu</label>
+                                <input type="text" name="sohokhau" value="{{ hokhau.sohokhau }}" class="form-control" required>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label class="font-weight-bold">Chủ hộ</label>
+                                <select name="chuhokhau" class="form-control" required>
+                                    {% for nk in nhankhau_list %}
+                                        <option value="{{ nk.id }}" {% if nk.id == hokhau.chuhokhau.id %}selected{% endif %}>
+                                            {{ nk.hoten }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6 mb-3">
+                                    <label>Số nhà</label>
+                                    <input type="text" name="sonha" value="{{ hokhau.sonha }}" class="form-control" required>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <label>Đường</label>
+                                    <input type="text" name="duong" value="{{ hokhau.duong }}" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 mb-3">
+                                    <label>Phường/Xã</label>
+                                    <input type="text" name="phuong" value="{{ hokhau.phuong }}" class="form-control" required>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <label>Quận/Huyện</label>
+                                    <input type="text" name="quan" value="{{ hokhau.quan }}" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label>Ngày lập</label>
+                                <input type="date" name="ngaylamhokhau" value="{{ hokhau.ngaylamhokhau|date:'Y-m-d' }}" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-8">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <h4 class="card-title mb-0">Thành viên trong hộ</h4>
+                                <button type="button" class="btn btn-sm btn-success ml-auto" onclick="addMemberRow()">
+                                    <i class="fas fa-plus"></i> Thêm thành viên
+                                </button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="bg-light">
+                                        <tr>
+                                            <th>Họ tên</th>
+                                            <th>Quan hệ</th>
+                                            <th style="width: 50px;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="memberTableBody">
+                                        {% for tv in thanh_vien_hien_tai %}
+                                        <tr>
+                                            <td>
+                                                <select name="thanhvien_id[]" class="form-control" required>
+                                                    {% for nk in nhankhau_list %}
+                                                    <option value="{{ nk.id }}" {% if nk.id == tv.nhankhau.id %}selected{% endif %}>
+                                                        {{ nk.hoten }} ({{ nk.cccd }})
+                                                    </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="text" name="quanhe[]" value="{{ tv.quanhevoichuho }}" class="form-control" required>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger btn-sm" onclick="this.parentElement.parentElement.remove()">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 text-right">
+                        <button type="submit" class="btn btn-primary px-4 shadow">Lưu tất cả thay đổi</button>
+                        <a href="{% url 'hokhau' %}" class="btn btn-dark px-4">Hủy</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function addMemberRow() {
+        const tbody = document.getElementById('memberTableBody');
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>
+                <select name="thanhvien_id[]" class="form-control" required>
+                    <option value="">-- Chọn nhân khẩu --</option>
+                    {% for nk in nhankhau_list %}
+                        <option value="{{ nk.id }}">{{ nk.hoten }} ({{ nk.cccd }})</option>
+                    {% endfor %}
+                </select>
+            </td>
+            <td>
+                <input type="text" name="quanhe[]" placeholder="Vợ, con..." class="form-control" required>
+            </td>
+            <td>
+                <button type="button" class="btn btn-danger btn-sm" onclick="this.parentElement.parentElement.remove()">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        `;
+        tbody.appendChild(row);
+    }
+</script>
+{% endblock update_hokhau %}
