@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'users',
 ]
 
+AUTH_USER_MODEL = 'users.User'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -72,6 +74,10 @@ TEMPLATES = [
         },
     },
 ]
+
+LOGIN_TEMPLATE = 'authentication-login1.html'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 WSGI_APPLICATION = 'myproject.wsgi.application'
 
