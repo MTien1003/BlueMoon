@@ -1,0 +1,73 @@
+{% extends 'tamtrutamvang.html' %}
+
+{% block content %}
+<div class="container-fluid p-0">
+
+    <div class="mb-3">
+        <h1 class="h3 d-inline align-middle">{{ title }}</h1>
+        <a href="{% url 'danh_sach_tttv' %}" class="float-end btn btn-outline-secondary">Quay lại</a>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-xl-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Thông tin hồ sơ</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Chọn Nhân Khẩu</label>
+                            {{ form.nhankhau }}
+                            </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Loại hồ sơ</label>
+                                {{ form.trangthai }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Ngày bắt đầu</label>
+                                {{ form.thoigian }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Địa chỉ Tạm trú / Nơi chuyển đến (Tạm vắng)</label>
+                            {{ form.diachitamtrutamvang }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Nội dung đề nghị / Lý do</label>
+                            {{ form.noidungdenghi }}
+                        </div>
+
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-primary">Lưu hồ sơ</button>
+                            <button type="reset" class="btn btn-secondary">Nhập lại</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-12 col-xl-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Lưu ý</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2"><span class="text-primary">●</span> <strong>Tạm trú:</strong> Dành cho người từ nơi khác đến sinh sống tại chung cư.</li>
+                        <li class="mb-2"><span class="text-warning">●</span> <strong>Tạm vắng:</strong> Dành cho cư dân đi vắng dài ngày.</li>
+                        <li><span class="text-danger">●</span> Vui lòng kiểm tra kỹ số CCCD trước khi nhập.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

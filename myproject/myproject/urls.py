@@ -21,6 +21,7 @@ from users import views as users_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
+    path('', include('tamtrutamvang.urls')),
     path('nhankhau/', include('nhankhau.urls')),
     path('hokhau/', include('hokhau.urls')),
     path('register/', users_views.register, name='register'),
