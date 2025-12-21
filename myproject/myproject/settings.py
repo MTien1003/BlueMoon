@@ -84,7 +84,11 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'bluemoon',
         'USER': 'postgres',
+<<<<<<< HEAD
+        'PASSWORD': 'vanthinh123',  # đổi thành mật khẩu bạn đã đặt
+=======
         'PASSWORD': 'Trunghl3',  # đổi thành mật khẩu bạn đã đặt
+>>>>>>> ed0e144f788249b5db9e7242a967eb08eb29d6df
         'HOST': 'localhost',
         'PORT': '5432',
         'ENGINE': 'django.db.backends.sqlite3',
