@@ -32,9 +32,28 @@
         <div class="col-12">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <h4 class="card-title">Danh sách biến động cư trú</h4>
-                    <div class="table-responsive mt-3">
-                        <table class="table table-hover table-bordered">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h4 class="card-title">Danh sách biến động cư trú</h4>
+                            <form method="get" action="" style="width: 300px;">
+                                <div class="input-group">
+                                    <input type="text" name="q" class="form-control form-control-sm" 
+                                        placeholder="Nhập từ khóa..." 
+                                        value="{{ search_query }}">
+                                    
+                                    <button class="btn btn-primary btn-sm" type="submit">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                    
+                                    {% if search_query %}
+                                    <a href="{% url 'danh_sach_tttv' %}" class="btn btn-outline-secondary btn-sm" title="Xóa">
+                                        <i class="fas fa-times"></i>
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </form>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered">
                             <thead class="bg-primary text-white">
                                 <tr>
                                     <th>Nhân khẩu</th>
@@ -60,11 +79,11 @@
                                     <td>{{ item.thoigian|date:"d/m/Y" }}</td>
                                     <td>{{ item.noidungdenghi }}</td>   
                                     <td>
-                                        <a href="{% url 'sua_tttv' item.id %}" class="btn btn-sm btn-info text-white" title="Sửa">
+                                        <a href="{% url 'sua_tttv' item.id %}" class="btn waves-effect waves-light btn-rounded btn-outline-primary btn-sm flex-fill" title="Sửa" style="font-size: 1.2rem;">
                                             <i class="fas fa-edit"></i> </a>
                                         
-                                        <a href="{% url 'in_phieu_tttv' item.id %}" class="btn btn-sm btn-secondary" title="In phiếu" target="_blank">
-                                            <i data-feather="printer"></i> In </a>
+                                        <a href="{% url 'in_phieu_tttv' item.id %}" class="btn waves-effect waves-light btn-rounded btn-outline-warning btn-sm flex-fill" title="In phiếu" target="_blank" style="font-size: 0.6rem;">
+                                            <i data-feather="printer"></i> </a>
                                     </td>
                                 </tr>
                                 {% empty %}
@@ -80,4 +99,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}
