@@ -79,10 +79,10 @@
                                     <td>{{ item.thoigian|date:"d/m/Y" }}</td>
                                     <td>{{ item.noidungdenghi }}</td>   
                                     <td>
-                                        <a href="{% url 'sua_tttv' item.id %}" class="btn waves-effect waves-light btn-rounded btn-outline-primary btn-sm flex-fill" title="Sửa" style="font-size: 1.2rem;">
+                                        <a href="{% url 'sua_tttv' item.id %}" class="btn btn-sm btn-outline-info" title="Sửa" style="font-size: 1.5rem;">
                                             <i class="fas fa-edit"></i> </a>
                                         
-                                        <a href="{% url 'in_phieu_tttv' item.id %}" class="btn waves-effect waves-light btn-rounded btn-outline-warning btn-sm flex-fill" title="In phiếu" target="_blank" style="font-size: 0.6rem;">
+                                        <a href="{% url 'in_phieu_tttv' item.id %}" class="btn btn-sm btn-outline-warning" title="In phiếu" target="_blank" style="font-size: 0.6rem;">
                                             <i data-feather="printer"></i> </a>
                                     </td>
                                 </tr>
