@@ -42,7 +42,7 @@
                                         <th>Người nộp</th>
                                         <th>Số tiền</th>
                                         <th>Ngày nộp</th>
-                                        <th class="text-center">Thao tác</th>
+                                        <th class="text-center align-middle">Thao tác</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -54,13 +54,17 @@
                                         <td>{{ hoadon.nguoinoptien }}</td>
                                         <td>{{ hoadon.sotien|floatformat:0 }} VND</td>
                                         <td>{{ hoadon.ngaynop|date:"d/m/Y"|default:"-" }}</td>
-                                        <td class="text-center">
-                                            <form method="post" action="{% url 'xacnhan_thanh_toan' hoadon.id %}" style="display:inline;">
-                                                {% csrf_token %}
-                                                <button type="submit" class="btn btn-sm btn-primary btn-rounded">
-                                                    Xác nhận thanh toán
-                                                </button>
-                                            </form>
+                                        <td class="text-center align-middle">
+                                            {% if hoadon.ngaynop %}
+                                                <span class="badge bg-success">Đã thanh toán</span>
+                                            {% else %}
+                                                <form method="post" action="{% url 'xacnhan_thanh_toan' hoadon.id %}" style="display:inline;">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-sm btn-primary btn-rounded">
+                                                        Xác nhận thanh toán
+                                                    </button>
+                                                </form>
+                                            {% endif %}
                                         </td>
                                     </tr>
                                     {% empty %}
