@@ -7,4 +7,4 @@ class NopTien(models.Model):
     khoanthu = models.ForeignKey(KhoanThu, on_delete=models.CASCADE)
     nguoinoptien = models.CharField(max_length=100)
     sotien = models.DecimalField(max_digits=12, decimal_places=2)
-    ngaynop = models.DateField()
+    ngaynop = models.DateField(null=True, blank=True)

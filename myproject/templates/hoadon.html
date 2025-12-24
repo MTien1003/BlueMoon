@@ -49,11 +49,11 @@
                                     {% for hoadon in hoadons %}
                                     <tr>
                                         <td>{{ hoadon.id }}</td>
-                                        <td>{{ hoadon.hokhau.sohokhau }}</td>
+                                        <td>{{ hoadon.hokhau.sohokhau|default:"-" }}</td>
                                         <td>{{ hoadon.khoanthu.tenkhoanthu }}</td>
                                         <td>{{ hoadon.nguoinoptien }}</td>
                                         <td>{{ hoadon.sotien|floatformat:0 }} VND</td>
-                                        <td>{{ hoadon.ngaynop|date:"d/m/Y" }}</td>
+                                        <td>{{ hoadon.ngaynop|date:"d/m/Y"|default:"-" }}</td>
                                         <td class="text-center">
                                             <form method="post" action="{% url 'xacnhan_thanh_toan' hoadon.id %}" style="display:inline;">
                                                 {% csrf_token %}

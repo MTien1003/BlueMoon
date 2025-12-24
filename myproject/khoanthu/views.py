@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import KhoanThu
+from hokhau.models import HoKhau
+from noptien.models import NopTien
 
 # Create your views here.
 def khoanthu(request):
@@ -11,6 +13,7 @@ def create_khoanthu(request):
     """
     Trang tạo mới KhoanThu.
     Nhận dữ liệu từ form và lưu vào database, sau đó quay lại danh sách khoản thu.
+    Nếu khoản thu là bắt buộc, tự động tạo hóa đơn cho tất cả hộ khẩu.
     """
     if request.method == 'POST':
         khoanthu = KhoanThu(
@@ -22,6 +25,21 @@ def create_khoanthu(request):
             sotien=request.POST['sotien'],
         )
         khoanthu.save()
+        
+        # Nếu khoản thu là bắt buộc, tự động tạo hóa đơn cho tất cả hộ khẩu
+        if khoanthu.batbuoc:
+            hokhaus = HoKhau.objects.all()
+            for hokhau in hokhaus:
+                # Kiểm tra xem đã có hóa đơn cho hộ khẩu này và khoản thu này chưa
+                if not NopTien.objects.filter(hokhau=hokhau, khoanthu=khoanthu).exists():
+                    NopTien.objects.create(
+                        hokhau=hokhau,
+                        khoanthu=khoanthu,
+                        nguoinoptien=hokhau.chuhokhau.hoten if hokhau.chuhokhau else "Chưa nộp",
+                        sotien=khoanthu.sotien,
+                        ngaynop=None,  # Để trống, sẽ cập nhật khi xác nhận thanh toán
+                    )
+        
         return redirect('khoanthu')
 
     return render(request, 'create_khoanthu.html')
@@ -34,8 +52,12 @@ def xem_khoanthu(request, id):
 
 
 def update_khoanthu(request, id):
-    """Cập nhật thông tin một khoản thu."""
+    """
+    Cập nhật thông tin một khoản thu.
+    Nếu chuyển từ không bắt buộc sang bắt buộc, tự động tạo hóa đơn cho các hộ khẩu chưa có.
+    """
     khoanthu = get_object_or_404(KhoanThu, id=id)
+    was_batbuoc = khoanthu.batbuoc  # Lưu trạng thái cũ
 
     if request.method == 'POST':
         khoanthu.tenkhoanthu = request.POST['tenkhoanthu']
@@ -45,6 +67,21 @@ def update_khoanthu(request, id):
         khoanthu.ghichu = request.POST.get('ghichu', '')
         khoanthu.sotien = request.POST['sotien']
         khoanthu.save()
+        
+        # Nếu chuyển từ không bắt buộc sang bắt buộc, tạo hóa đơn cho các hộ khẩu chưa có
+        if not was_batbuoc and khoanthu.batbuoc:
+            hokhaus = HoKhau.objects.all()
+            for hokhau in hokhaus:
+                # Chỉ tạo nếu chưa có hóa đơn cho hộ khẩu này và khoản thu này
+                if not NopTien.objects.filter(hokhau=hokhau, khoanthu=khoanthu).exists():
+                    NopTien.objects.create(
+                        hokhau=hokhau,
+                        khoanthu=khoanthu,
+                        nguoinoptien=hokhau.chuhokhau.hoten if hokhau.chuhokhau else "Chưa nộp",
+                        sotien=khoanthu.sotien,
+                        ngaynop=None,  # Để trống, sẽ cập nhật khi xác nhận thanh toán
+                    )
+        
         return redirect('khoanthu')
 
     return render(request, 'update_khoanthu.html', {'khoanthu': khoanthu})
