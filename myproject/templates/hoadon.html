@@ -45,6 +45,7 @@
                                         <th>STT</th>
                                         <th>Hộ khẩu</th>
                                         <th>Khoản thu</th>
+                                        <th class="text-center align-middle">Bắt buộc</th>
                                         <th>Người nộp</th>
                                         <th>Số tiền</th>
                                         <th>Ngày nộp</th>
@@ -57,6 +58,13 @@
                                         <td>{{ hoadon.id }}</td>
                                         <td>{{ hoadon.hokhau.sohokhau|default:"-" }}</td>
                                         <td>{{ hoadon.khoanthu.tenkhoanthu }}</td>
+                                        <td class="text-center align-middle">
+                                            {% if hoadon.khoanthu.batbuoc %}
+                                                <span class="badge bg-danger">Bắt buộc</span>
+                                            {% else %}
+                                                <span class="badge bg-success">Tự nguyện</span>
+                                            {% endif %}
+                                        </td>
                                         <td>{{ hoadon.nguoinoptien }}</td>
                                         <td>{{ hoadon.sotien|floatformat:0 }} VND</td>
                                         <td>{{ hoadon.ngaynop|date:"d/m/Y"|default:"-" }}</td>
@@ -75,7 +83,7 @@
                                     </tr>
                                     {% empty %}
                                     <tr>
-                                        <td colspan="7" class="text-center">Chưa có dữ liệu hóa đơn.</td>
+                                        <td colspan="8" class="text-center">Chưa có dữ liệu hóa đơn.</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

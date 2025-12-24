@@ -13,7 +13,7 @@ def create_khoanthu(request):
     """
     Trang tạo mới KhoanThu.
     Nhận dữ liệu từ form và lưu vào database, sau đó quay lại danh sách khoản thu.
-    Nếu khoản thu là bắt buộc, tự động tạo hóa đơn cho tất cả hộ khẩu.
+    Sau khi tạo, tự động tạo hóa đơn cho tất cả hộ khẩu (bắt buộc hoặc tự nguyện).
     """
     if request.method == 'POST':
         khoanthu = KhoanThu(
@@ -25,20 +25,19 @@ def create_khoanthu(request):
             sotien=request.POST['sotien'],
         )
         khoanthu.save()
-        
-        # Nếu khoản thu là bắt buộc, tự động tạo hóa đơn cho tất cả hộ khẩu
-        if khoanthu.batbuoc:
-            hokhaus = HoKhau.objects.all()
-            for hokhau in hokhaus:
-                # Kiểm tra xem đã có hóa đơn cho hộ khẩu này và khoản thu này chưa
-                if not NopTien.objects.filter(hokhau=hokhau, khoanthu=khoanthu).exists():
-                    NopTien.objects.create(
-                        hokhau=hokhau,
-                        khoanthu=khoanthu,
-                        nguoinoptien=hokhau.chuhokhau.hoten if hokhau.chuhokhau else "Chưa nộp",
-                        sotien=khoanthu.sotien,
-                        ngaynop=None,  # Để trống, sẽ cập nhật khi xác nhận thanh toán
-                    )
+
+        # Tự động tạo hóa đơn cho tất cả hộ khẩu (bất kể khoản thu bắt buộc hay tự nguyện)
+        hokhaus = HoKhau.objects.all()
+        for hokhau in hokhaus:
+            # Kiểm tra xem đã có hóa đơn cho hộ khẩu này và khoản thu này chưa
+            if not NopTien.objects.filter(hokhau=hokhau, khoanthu=khoanthu).exists():
+                NopTien.objects.create(
+                    hokhau=hokhau,
+                    khoanthu=khoanthu,
+                    nguoinoptien=hokhau.chuhokhau.hoten if hasattr(hokhau, "chuhokhau") and hokhau.chuhokhau else "Chưa nộp",
+                    sotien=khoanthu.sotien,
+                    ngaynop=None,  # Để trống, sẽ cập nhật khi xác nhận thanh toán
+                )
         
         return redirect('khoanthu')
 
