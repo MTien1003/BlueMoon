@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<html dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BlueMoon - Welcome</title>
+    <link href="{% static 'dist/css/style.min.css' %}" rel="stylesheet">
+    <style>
+        body, html {
+        overflow: hidden; 
+        height: 100%; 
+        }
+        /* Căn giữa background toàn màn hình */
+        .auth-wrapper {
+            min-height: 100vh;
+            background-color: #f4f7f9; /* Màu nền sáng nhẹ */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Hộp chứa chính */
+        .auth-box {
+            overflow: hidden;
+            border-radius: 24px; /* Bo góc mềm mại hơn */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); /* Đổ bóng sâu hơn */
+            max-width: 1000px; /* Tăng chiều rộng tối đa */
+            width: 100%;
+            background-color: #fff;
+        }
+
+        /* Phần ảnh bên trái */
+        .image-column {
+            background-image: url({% static 'assets/images/big/4.jpg' %});
+            background-size: cover;
+            background-position: center;
+            min-height: 600px; /* Tăng chiều cao để cân đối */
+        }
+
+        /* Phần nội dung bên phải */
+        .content-column {
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Căn giữa dọc */
+            align-items: center; /* Căn giữa ngang */
+            padding: 5rem !important; /* Padding lớn tạo không gian thoáng */
+            text-align: center;
+        }
+
+        /* Logo */
+        .logo-img {
+            max-width: 90px;
+            margin-bottom: 2rem;
+        }
+
+        /* Tiêu đề Brand */
+        .brand-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        /* Text chào mừng */
+        .welcome-text {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            margin-bottom: 3rem;
+            max-width: 350px; /* Giới hạn chiều rộng để text không bị dàn trải */
+            line-height: 1.6;
+        }
+
+        /* Nút bấm */
+        .btn-start {
+            padding: 15px 50px;
+            font-weight: 700;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            background-color: #34495e;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-start:hover {
+            background-color: #2c3e50;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(52, 73, 94, 0.3);
+        }
+
+        /* Footer */
+        .footer-text {
+            margin-top: auto; /* Đẩy xuống dưới cùng */
+            padding-top: 3rem;
+            font-size: 0.9rem;
+            color: #bdc3c7;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <div class="preloader">
+            <div class="lds-ripple">
+                <div class="lds-pos"></div>
+                <div class="lds-pos"></div>
+            </div>
+        </div>
+
+        <div class="auth-wrapper">
+            <div class="auth-box row g-0"> 
+                <div class="col-lg-6 col-md-5 image-column d-none d-md-block"></div>
+                <div class="col-lg-6 col-md-7 content-column">
+                    <div>
+                        <img src="{% static 'assets/images/big/icon.png' %}" alt="BlueMoon Logo" class="logo-img">
+                        <h2 class="brand-title">BlueMoon</h2>
+                        <p class="welcome-text">Chào mừng quý khách đến với hệ thống. Trải nghiệm sự khác biệt ngay hôm nay.</p>
+                        <a href="{% url 'register' %}" class="btn btn-primary btn-start text-white">
+                            Bắt đầu ngay
+                        </a>
+                    </div>
+                    <div class="footer-text">
+                        © 2025 BlueMoon Inc. All rights reserved.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'assets/libs/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/libs/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <script>
+        $(".preloader").fadeOut();
+    </script>
+</body>
+
+</html>
