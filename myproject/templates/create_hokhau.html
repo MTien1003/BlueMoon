@@ -10,8 +10,7 @@
                         <div class="card-body">
                             <h4 class="card-title text-primary">Thông tin Hộ Khẩu</h4>
                             <div class="form-group mb-3">
-                                <label>Số hộ khẩu</label>
-                                <input type="text" name="sohokhau" class="form-control" required>
+                            
                             </div>
                             <div class="form-group mb-3">
                                 <label>Chủ hộ</label>
@@ -28,6 +27,10 @@
                                 <div class="col-6 mb-3"><label>Phường</label><input type="text" name="phuong" class="form-control"></div>
                                 <div class="col-6 mb-3"><label>Quận</label><input type="text" name="quan" class="form-control"></div>
                                 <div class="col-12 mb-3"><label>Ngày lập</label><input type="date" name="ngaylamhokhau" class="form-control" required></div>
+                                <div class="col-12 mb-3">
+        <label>Ghi chú (Tình trạng)</label>
+        <textarea name="ghichu" class="form-control" rows="3" placeholder="Nhập ghi chú (VD: Đã chuyển đi, Vắng mặt...)"></textarea>
+    </div>
                             </div>
                         </div>
                     </div>
@@ -36,12 +39,12 @@
                 <div class="col-lg-7">
                     <div class="card">
                         <div class="card-body">
-                            <div class="d-flex align-items-center mb-3">
-                                <h4 class="card-title text-primary mb-0">Thành viên trong hộ</h4>
-                                <button type="button" class="btn btn-success btn-sm ml-auto" onclick="addThanhVien()">
-                                    <i class="fas fa-plus"></i> Thêm thành viên
-                                </button>
-                            </div>
+                                                        <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
+    <h4 class="card-title mb-0">Thành viên trong hộ</h4>
+    <button type="button" class="btn btn-sm btn-success shadow-sm" onclick="addThanhVien()">
+        <i class="fas fa-plus mr-1"></i> Thêm thành viên
+    </button>
+</div>
                             
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="thanhVienTable">
@@ -86,7 +89,7 @@
             </td>
             <td>
                 <button type="button" class="btn btn-danger btn-sm" onclick="this.parentElement.parentElement.remove()">
-                    <i class="fas fa-trash"></i>
+                    <i class="fas fa-trash-alt"></i>
                 </button>
             </td>
         `;

@@ -16,7 +16,7 @@
                    <div class="card-header bg-primary text-white d-flex align-items-center justify-content-between">
     <h4 class="mb-0 mr-3">Thông tin hộ khẩu</h4>
     
-    <a href="{% url 'lich_su_hokhau' hokhau.id %}" class="btn btn-sm btn-light shadow-sm">
+    <a href="{% url 'lich_su_hokhau' hokhau.id %}" class="btn btn-sm btn-light shadow-sm btn-rounded">
         <i class="fas fa-history mr-1"></i> Xem lịch sử thay đổi
     </a>
 </div>
@@ -27,6 +27,17 @@
                         <p><strong>Địa chỉ:</strong> {{ hokhau.sonha }}, {{ hokhau.duong }}, {{ hokhau.phuong }}, {{ hokhau.quan }}</p>
                         <p><strong>Ngày lập:</strong> {{ hokhau.ngaylamhokhau|date:"d/m/Y" }}</p>
                         <p><strong>Số thành viên khai báo:</strong> {{ hokhau.sothanhvien }}</p>
+                        <div class="">
+                            <label class="font-weight">Ghi chú (Tình trạng):</label>
+                            <div class="p-3 rounded border {% if hokhau.ghichu %}bg-light border-warning{% else %}bg-white{% endif %}">
+                                {% if hokhau.ghichu %}
+                                    <i class="fas fa-sticky-note text-warning mr-2"></i>
+                                    <span class="text-dark">{{ hokhau.ghichu|linebreaksbr }}</span>
+                                {% else %}
+                                    <span class="text-muted font-italic">Không có ghi chú nào.</span>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -49,7 +60,7 @@
                                     <tr class="table-info">
                                         <td><strong>{{ hokhau.chuhokhau.hoten }}</strong></td>
                                         <td>{{ hokhau.chuhokhau.cccd }}</td>
-                                        <td><span class="badge badge-primary">Chủ hộ</span></td>
+                                        <td><span class="">Chủ hộ</span></td>
                                         <td>{{ hokhau.ngaylamhokhau|date:"d/m/Y" }}</td>
                                     </tr>
                                     

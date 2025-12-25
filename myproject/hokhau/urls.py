@@ -8,5 +8,5 @@ urlpatterns = [
     path('view/<int:pk>/', views.xem_hokhau, name='xem_hokhau'),
     path('update/<int:pk>/', views.update_hokhau, name='update_hokhau'),
     path('history/<int:pk>/', views.lich_su_hokhau, name='lich_su_hokhau'),
-    path('delete/<int:pk>/', views.delete_hokhau, name='delete_hokhau'),
+
 ]
