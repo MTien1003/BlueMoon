@@ -5,6 +5,8 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect
 from django.db import transaction
 from django.utils import timezone
+import datetime
+import random
 
 
 def hokhau(request):
@@ -25,38 +27,58 @@ def hokhau(request):
 
 def create_hokhau(request):
     if request.method == 'POST':
-        # 1. Lấy thông tin hộ khẩu
-        sohokhau = request.POST.get('sohokhau')
+        # --- 1. TỰ ĐỘNG SINH SỐ HỘ KHẨU THEO THỨ TỰ ---
+        # Logic: Lấy hộ khẩu được tạo gần nhất để tính số tiếp theo
+        last_hokhau = HoKhau.objects.all().order_by('id').last()
+
+        if last_hokhau and last_hokhau.sohokhau.startswith('HK'):
+            try:
+                # Tách phần số ra khỏi chữ "HK" (Ví dụ: HK00005 -> lấy số 5)
+                last_number = int(last_hokhau.sohokhau[2:])
+                new_number = last_number + 1
+            except ValueError:
+                # Phòng trường hợp dữ liệu cũ không đúng định dạng chuẩn
+                new_number = 1
+        else:
+            # Nếu chưa có hộ khẩu nào trong DB
+            new_number = 1
+
+        # Tạo chuỗi mã mới: HK + 5 chữ số (Ví dụ: HK00001, HK00010)
+        sohokhau_auto = f"HK{new_number:05d}"
+
+        # --- 2. Lấy dữ liệu từ form ---
         sonha = request.POST.get('sonha')
         duong = request.POST.get('duong')
         phuong = request.POST.get('phuong')
         quan = request.POST.get('quan')
         ngaylamhokhau = request.POST.get('ngaylamhokhau')
         chuhokhau_id = request.POST.get('chuhokhau')
+        ghichu = request.POST.get('ghichu')
 
-        # 2. Lấy danh sách thành viên từ Form (dạng list)
+        # --- 3. Lấy danh sách thành viên ---
         thanhvien_ids = request.POST.getlist('thanhvien_id[]')
         quanhes = request.POST.getlist('quanhe[]')
 
         try:
-            with transaction.atomic():  # Đảm bảo tính toàn vẹn dữ liệu
-                # Tạo Hộ Khẩu
+            with transaction.atomic():
                 chu_ho = NhanKhau.objects.get(id=chuhokhau_id)
+
+                # Tạo Hộ Khẩu
                 hokhau = HoKhau.objects.create(
-                    sohokhau=sohokhau,
+                    sohokhau=sohokhau_auto,
                     sonha=sonha,
                     duong=duong,
                     phuong=phuong,
                     quan=quan,
                     ngaylamhokhau=ngaylamhokhau,
                     chuhokhau=chu_ho,
-                    # Chủ hộ + số thành viên thêm
-                    sothanhvien=len(thanhvien_ids) + 1
+                    sothanhvien=len(thanhvien_ids) + 1,
+                    ghichu=ghichu
                 )
 
-                # Lưu các thành viên vào bảng ThanhVienHoKhau
+                # Tạo Thành viên
                 for nhankhau_id, quanhe in zip(thanhvien_ids, quanhes):
-                    if nhankhau_id:  # Tránh trường hợp gửi lên id rỗng
+                    if nhankhau_id:
                         nhan_khau = NhanKhau.objects.get(id=nhankhau_id)
                         ThanhVienHoKhau.objects.create(
                             hokhau=hokhau,
@@ -66,10 +88,10 @@ def create_hokhau(request):
                         )
 
                 messages.success(
-                    request, 'Tạo hộ khẩu và thêm thành viên thành công!')
+                    request, f'Đã tạo hộ khẩu mới: {sohokhau_auto}')
                 return redirect('hokhau')
         except Exception as e:
-            messages.error(request, f'Lỗi: {e}')
+            messages.error(request, f'Lỗi hệ thống: {e}')
 
     nhankhau_list = NhanKhau.objects.all()
     return render(request, 'create_hokhau.html', {'nhankhau_list': nhankhau_list})
@@ -105,6 +127,7 @@ def update_hokhau(request, pk):
             hokhau.phuong = request.POST.get('phuong')
             hokhau.quan = request.POST.get('quan')
             hokhau.ngaylamhokhau = request.POST.get('ngaylamhokhau')
+            hokhau.ghichu = request.POST.get('ghichu')
 
             chu_ho_id = request.POST.get('chuhokhau')
             hokhau.chuhokhau = NhanKhau.objects.get(id=chu_ho_id)
@@ -181,21 +204,3 @@ def lich_su_hokhau(request, pk):
         'history_list': history_list,
     }
     return render(request, 'lich_su_hokhau.html', context)
-
-
-def delete_hokhau(request, pk):
-    # Lấy đối tượng hộ khẩu hoặc trả về 404
-    hokhau = get_object_or_404(HoKhau, id=pk)
-
-    if request.method == 'POST':
-        so_hk = hokhau.sohokhau
-        try:
-            hokhau.delete()
-            messages.success(request, f'Đã xóa thành công hộ khẩu số: {so_hk}')
-        except Exception as e:
-            messages.error(request, f'Không thể xóa hộ khẩu này. Lỗi: {e}')
-
-        return redirect('hokhau')
-
-    # Nếu truy cập bằng GET (gõ trực tiếp link), trả về trang danh sách hoặc báo lỗi
-    return redirect('hokhau')
