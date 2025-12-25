@@ -27,11 +27,12 @@ def danh_sach_tam_tru_tam_vang(request):
     filter_type = request.GET.get('filter', '') 
     if filter_type == 'tam_tru':
         # Lọc lấy danh sách Tạm Trú (Ví dụ: trangthai = 'TAM_TRU')
-        danh_sach = danh_sach.filter(trangthai='tam tru')
+        # Cách 1: Sử dụng __in (Gọn gàng nhất)
+        danh_sach = danh_sach.filter(trangthai__in=['tam tru', 'Tạm trú'])
         
     elif filter_type == 'tam_vang':
         # Lọc lấy danh sách Tạm Vắng (Ví dụ: trangthai = 'TAM_VANG')
-        danh_sach = danh_sach.filter(trangthai='tam vang')
+        danh_sach = danh_sach.filter(trangthai__in=['tam vang', 'Tạm vắng'])
     # 4. Xử lý tìm kiếm (Nếu có nhập từ khóa)
     if search_query:
         danh_sach = danh_sach.filter(nhankhau__hoten__icontains=search_query)
