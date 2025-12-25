@@ -17,10 +17,10 @@ def hokhau(request):
         # Lọc danh sách hộ khẩu theo tên chủ hộ (không phân biệt hoa thường)
         hokhau_list = HoKhau.objects.select_related('chuhokhau').filter(
             chuhokhau__hoten__icontains=query
-        )
+        ).order_by('sohokhau')
     else:
         # Nếu không tìm kiếm, lấy toàn bộ danh sách
-        hokhau_list = HoKhau.objects.select_related('chuhokhau').all()
+        hokhau_list = HoKhau.objects.select_related('chuhokhau').all().order_by('sohokhau')
 
     return render(request, 'hokhau.html', {'hokhau_list': hokhau_list})
 

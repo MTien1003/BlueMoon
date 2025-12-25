@@ -35,7 +35,7 @@
 
         /* Phần ảnh bên trái */
         .image-column {
-            background-image: url({% static 'assets/images/big/3.jpg' %});
+            background-image: url({% static 'assets/images/big/4.jpg' %});
             background-size: cover;
             background-position: center;
             min-height: 600px; /* Tăng chiều cao để cân đối */
@@ -114,21 +114,16 @@
 
         <div class="auth-wrapper">
             <div class="auth-box row g-0"> 
-                
-                <div class="col-lg-6 col-md-5 image-column d-none d-md-block">
-                    </div>
-
+                <div class="col-lg-6 col-md-5 image-column d-none d-md-block"></div>
                 <div class="col-lg-6 col-md-7 content-column">
                     <div>
                         <img src="{% static 'assets/images/big/icon.png' %}" alt="BlueMoon Logo" class="logo-img">
                         <h2 class="brand-title">BlueMoon</h2>
                         <p class="welcome-text">Chào mừng quý khách đến với hệ thống. Trải nghiệm sự khác biệt ngay hôm nay.</p>
-                        
                         <a href="{% url 'register' %}" class="btn btn-primary btn-start text-white">
                             Bắt đầu ngay
                         </a>
                     </div>
-                    
                     <div class="footer-text">
                         © 2025 BlueMoon Inc. All rights reserved.
                     </div>

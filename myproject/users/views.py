@@ -33,4 +33,9 @@ def login_view(request):
             messages.error(request, 'Invalid username or password')
     return render(request, 'authentication-login1.html')
 
+def logout_view(request):
+    from django.contrib.auth import logout
+    logout(request)
+    return redirect('login')
+
 

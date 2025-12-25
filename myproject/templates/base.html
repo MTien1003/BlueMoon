@@ -21,6 +21,7 @@
     <!-- Custom CSS -->
     <link href="{% static 'dist/css/style.min.css' %}" rel="stylesheet">
 
+
     
 </head>
 
@@ -40,7 +41,7 @@
                     <a class="nav-toggler waves-effect waves-light d-block d-lg-none" href="javascript:void(0)"><i
                             class="ti-menu ti-close"></i></a>
                     <div class="navbar-brand">
-                        <a href="index.html" class="d-flex align-items-center gap-3 text-decoration-none">
+                        <a href="{% url 'home' %}" class="d-flex align-items-center gap-3 text-decoration-none">
         
                             <!-- Moon icon logo -->
                             <span class="logo-icon d-flex align-items-center justify-content-center">
@@ -68,25 +69,8 @@
                                 <img src="{% static 'assets/images/users/profile-pic.jpg' %}" alt="user" class="rounded-circle"
                                     width="40">
                                 <span class="ms-2 d-none d-lg-inline-block"><span>Xin chào,</span> <span
-                                        class="text-dark">Jason Doe</span> <i data-feather="chevron-down"
-                                        class="svg-icon"></i></span>
+                                        class="text-dark">{{ request.user.username }}</span> </span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-right user-dd animated flipInY">
-                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="user"
-                                        class="svg-icon me-2 ms-1"></i>
-                                    Hồ sơ của tôi</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="settings"
-                                        class="svg-icon me-2 ms-1"></i>
-                                    Cài đặt tài khoản</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="power"
-                                        class="svg-icon me-2 ms-1"></i>
-                                    Đăng xuất</a>
-                                <div class="dropdown-divider"></div>
-                                <div class="pl-4 p-3"><a href="javascript:void(0)" class="btn btn-sm btn-info">Xem
-                                        Hồ sơ</a></div>
-                            </div>
                         </li>
                     </ul>
                 </div>
@@ -115,7 +99,7 @@
                         </li>
                         <li class="sidebar-item"> <a class="sidebar-link" href="{% url 'hoadon' %}"
                                 aria-expanded="false"><i data-feather="file-text" class="feather-icon"></i><span
-                                    class="hide-menu">Hóa đơn
+                                    class="hide-menu">Nộp tiền
                                 </span></a>
                         <li class="sidebar-item"> 
                             <a class="sidebar-link" href="{% url 'danh_sach_tttv' %}" aria-expanded="false">
@@ -123,32 +107,14 @@
                                 <span class="hide-menu">Tạm trú - Tạm vắng</span>
                             </a>
                         </li>
-                        
                        <li class="sidebar-item"> 
                             <a class="sidebar-link" href="{% url 'hokhau' %}" aria-expanded="false">
                                 <i data-feather="home" class="feather-icon"></i>
                                 <span class="hide-menu">Hộ khẩu</span>
                             </a>
                         </li>
-
                         <li class="list-divider"></li>
-                        <li class="nav-small-cap"><span class="hide-menu">Xác thực</span></li>
-
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="{% url 'login' %}"
-                                aria-expanded="false"><i data-feather="lock" class="feather-icon"></i><span
-                                    class="hide-menu">Đăng nhập
-                                </span></a>
-                        </li>
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link"
-                                href="{% url 'register' %}" aria-expanded="false"><i data-feather="lock"
-                                    class="feather-icon"></i><span class="hide-menu">Đăng ký
-                                </span></a>
-                        </li>
-
-
-                        <li class="list-divider"></li>
-                        <li class="nav-small-cap"><span class="hide-menu">Thêm</span></li>
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="authentication-login1.html"
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="{% url 'logout' %}"
                                 aria-expanded="false"><i data-feather="log-out" class="feather-icon"></i><span
                                     class="hide-menu">Đăng xuất</span></a></li>
                 </nav>

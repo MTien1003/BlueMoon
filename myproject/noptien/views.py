@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
+from django.db.models import Q
 from .models import NopTien
 from hokhau.models import HoKhau
 from khoanthu.models import KhoanThu
@@ -8,9 +9,16 @@ from khoanthu.models import KhoanThu
 def hoadon(request):
     """
     Trang danh sách hóa đơn (nộp tiền) cho các khoản thu.
+    Hỗ trợ tìm kiếm theo số hộ khẩu.
     """
+    query = request.GET.get('q', '')
     hoadons = NopTien.objects.select_related('hokhau', 'khoanthu').order_by('-id')
-    return render(request, 'hoadon.html', {'hoadons': hoadons})
+    
+    if query:
+        # Tìm kiếm theo số hộ khẩu
+        hoadons = hoadons.filter(hokhau__sohokhau__icontains=query)
+    
+    return render(request, 'hoadon.html', {'hoadons': hoadons, 'query': query})
 
 
 def create_hoadon(request):

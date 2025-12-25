@@ -5,17 +5,23 @@
     <div class="page-breadcrumb">
         <div class="row">
             <div class="col-7 align-self-center">
-                <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Hóa đơn</h4>
+                <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Nộp tiền</h4>
                 <div class="d-flex align-items-center">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb m-0 p-0">
                             <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-muted">Trang chủ</a></li>
-                            <li class="breadcrumb-item text-muted active" aria-current="page">Hóa đơn</li>
+                            <li class="breadcrumb-item text-muted active" aria-current="page">Nộp tiền</li>
                         </ol>
                     </nav>
                 </div>
             </div>
             <div class="col-5 align-self-center d-flex gap-2 justify-content-end">
+                <form class="d-flex align-items-center">
+                    <div class="customize-input">
+                        <input class="form-control custom-shadow custom-radius border-0 bg-white"
+                            type="search" style="width: 260px" placeholder="Tìm theo số hộ khẩu" aria-label="Search" name="q" value="{{ query }}">
+                    </div>
+                </form>
                 <div>
                     <button
                         type="button"
@@ -39,33 +45,45 @@
                                         <th>STT</th>
                                         <th>Hộ khẩu</th>
                                         <th>Khoản thu</th>
+                                        <th class="text-center align-middle">Bắt buộc</th>
                                         <th>Người nộp</th>
                                         <th>Số tiền</th>
                                         <th>Ngày nộp</th>
-                                        <th class="text-center">Thao tác</th>
+                                        <th class="text-center align-middle">Thao tác</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for hoadon in hoadons %}
                                     <tr>
                                         <td>{{ hoadon.id }}</td>
-                                        <td>{{ hoadon.hokhau.sohokhau }}</td>
+                                        <td>{{ hoadon.hokhau.sohokhau|default:"-" }}</td>
                                         <td>{{ hoadon.khoanthu.tenkhoanthu }}</td>
+                                        <td class="text-center align-middle">
+                                            {% if hoadon.khoanthu.batbuoc %}
+                                                <span class="badge bg-danger">Bắt buộc</span>
+                                            {% else %}
+                                                <span class="badge bg-success">Tự nguyện</span>
+                                            {% endif %}
+                                        </td>
                                         <td>{{ hoadon.nguoinoptien }}</td>
                                         <td>{{ hoadon.sotien|floatformat:0 }} VND</td>
-                                        <td>{{ hoadon.ngaynop|date:"d/m/Y" }}</td>
-                                        <td class="text-center">
-                                            <form method="post" action="{% url 'xacnhan_thanh_toan' hoadon.id %}" style="display:inline;">
-                                                {% csrf_token %}
-                                                <button type="submit" class="btn btn-sm btn-primary btn-rounded">
-                                                    Xác nhận thanh toán
-                                                </button>
-                                            </form>
+                                        <td>{{ hoadon.ngaynop|date:"d/m/Y"|default:"-" }}</td>
+                                        <td class="text-center align-middle">
+                                            {% if hoadon.ngaynop %}
+                                                <span class="badge bg-success">Đã thanh toán</span>
+                                            {% else %}
+                                                <form method="post" action="{% url 'xacnhan_thanh_toan' hoadon.id %}" style="display:inline;">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-sm btn-primary btn-rounded">
+                                                        Xác nhận thanh toán
+                                                    </button>
+                                                </form>
+                                            {% endif %}
                                         </td>
                                     </tr>
                                     {% empty %}
                                     <tr>
-                                        <td colspan="7" class="text-center">Chưa có dữ liệu hóa đơn.</td>
+                                        <td colspan="8" class="text-center">Chưa có dữ liệu hóa đơn.</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
