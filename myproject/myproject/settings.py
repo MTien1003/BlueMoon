@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'users',
 ]
 
+AUTH_USER_MODEL = 'users.User'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -74,6 +76,10 @@ TEMPLATES = [
     },
 ]
 
+LOGIN_TEMPLATE = 'authentication-login1.html'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/accounts/login/'
+
 WSGI_APPLICATION = 'myproject.wsgi.application'
 
 
@@ -85,7 +91,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'bluemoon',
         'USER': 'postgres',
-        'PASSWORD': '123456',  # đổi thành mật khẩu bạn đã đặt
+        'PASSWORD': 'vanthinh123',  # đổi thành mật khẩu bạn đã đặ
         'HOST': 'localhost',
         'PORT': '5432',
     }

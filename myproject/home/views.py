@@ -87,21 +87,27 @@ def format_currency(value):
         return "0"
 
 
+
 def home(request):
     total_nhankhau = get_total_nhankhau()
     doanhthu_thang_nay = get_doanhthu_thang_nay()
     doanhthu_formatted = format_currency(doanhthu_thang_nay)
     doanhthu_theo_thang = get_doanhthu_theo_thang()
-    
+    username = request.user.username
+
     # Chuyển đổi sang format cho biểu đồ: labels và series
     labels = list(doanhthu_theo_thang.keys())
     # Chuyển doanh thu sang đơn vị triệu VND để dễ hiển thị (chia cho 1,000,000)
     series = [[value / 1000000 for value in doanhthu_theo_thang.values()]]
-    
+
     return render(request, 'index.html', {
         'total_nhankhau': total_nhankhau,
         'doanhthu_thang_nay': doanhthu_thang_nay,
         'doanhthu_formatted': doanhthu_formatted,
         'chart_labels': json.dumps(labels),
-        'chart_series': json.dumps(series)
+        'chart_series': json.dumps(series),
+        'username': username
     })
+
+def firstpage(request):
+    return render(request, 'firstpage.html')

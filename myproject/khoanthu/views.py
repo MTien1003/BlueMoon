@@ -5,7 +5,7 @@ from noptien.models import NopTien
 
 # Create your views here.
 def khoanthu(request):
-    khoanthus = KhoanThu.objects.order_by("-id")
+    khoanthus = KhoanThu.objects.order_by("id")
     return render(request, 'khoanthu.html', {'khoanthus': khoanthus})
 
 
