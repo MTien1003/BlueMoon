@@ -32,9 +32,42 @@
         <div class="col-12">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <h4 class="card-title">Danh sách biến động cư trú</h4>
-                    <div class="table-responsive mt-3">
-                        <table class="table table-hover table-bordered">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h4 class="card-title">Danh sách biến động cư trú</h4>
+                            <div class="row mb-3 align-items-center">
+                                <div class="col-auto">
+                                    <div class="btn-group" role="group">
+                                        
+                                        <a href="?filter={% if current_filter == 'tam_tru' %}{% else %}tam_tru{% endif %}&q={{ search_query }}" 
+                                        class="btn {% if current_filter == 'tam_tru' %}btn-success text-white{% else %}btn-outline-success{% endif %}">
+                                        <i class="fas fa-user-check"></i> Tạm trú
+                                        </a>
+
+                                        <a href="?filter={% if current_filter == 'tam_vang' %}{% else %}tam_vang{% endif %}&q={{ search_query }}" 
+                                        class="btn {% if current_filter == 'tam_vang' %}btn-warning text-dark{% else %}btn-outline-warning{% endif %}">
+                                        <i class="fas fa-user-clock"></i> Tạm vắng
+                                        </a>
+
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <form method="GET" action="" class="d-flex">
+                                        <input type="hidden" name="che_do" value="{{ che_do }}">
+                                        
+                                        <input type="text" name="tu_khoa" class="form-control me-2" 
+                                            placeholder="Nhập tên cư dân hoặc số phòng..." 
+                                            value="{{ tu_khoa }}">
+                                        
+                                        <button class="btn btn-primary" type="submit">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered">
                             <thead class="bg-primary text-white">
                                 <tr>
                                     <th>Nhân khẩu</th>
@@ -60,11 +93,11 @@
                                     <td>{{ item.thoigian|date:"d/m/Y" }}</td>
                                     <td>{{ item.noidungdenghi }}</td>   
                                     <td>
-                                        <a href="{% url 'sua_tttv' item.id %}" class="btn btn-sm btn-info text-white" title="Sửa">
+                                        <a href="{% url 'sua_tttv' item.id %}" class="btn btn-sm btn-outline-info" title="Sửa" style="font-size: 1.5rem;">
                                             <i class="fas fa-edit"></i> </a>
                                         
-                                        <a href="{% url 'in_phieu_tttv' item.id %}" class="btn btn-sm btn-secondary" title="In phiếu" target="_blank">
-                                            <i data-feather="printer"></i> In </a>
+                                        <a href="{% url 'in_phieu_tttv' item.id %}" class="btn btn-sm btn-outline-warning" title="In phiếu" target="_blank" style="font-size: 0.6rem;">
+                                            <i data-feather="printer"></i> </a>
                                     </td>
                                 </tr>
                                 {% empty %}
@@ -80,4 +113,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}
