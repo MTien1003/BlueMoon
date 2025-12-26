@@ -9,32 +9,29 @@ from django.utils import timezone
 
 # 1. Hàm xem danh sách
 def danh_sach_tam_tru_tam_vang(request):
-    # Lấy từ khóa, mặc định là rỗng nếu không có
+    # 1. Lấy tham số từ URL
     search_query = request.GET.get('q', '').strip() 
-    
-    # Bắt đầu với toàn bộ danh sách
+    filter_type = request.GET.get('filter', '') 
+
+    # 2. Bắt đầu với toàn bộ danh sách (Sắp xếp mới nhất lên đầu)
     danh_sach = TamTruTamVang.objects.all().order_by('-thoigian')
 
-    if search_query:
-        # THUẬT TOÁN: Tìm xâu con không phân biệt hoa thường (icontains)
-        # Quét trên 3 trường: Họ tên, Số CCCD, Địa chỉ tạm trú
-        danh_sach = danh_sach.filter(
-            Q(nhankhau__hoten__icontains=search_query) |       # Tìm theo Tên (VD: gõ 'H' ra 'Hoàng', 'Huy')
-            Q(nhankhau__cccd__icontains=search_query) |        # Tìm theo CCCD (VD: gõ '1' ra CCCD có số 1)
-            Q(diachitamtrutamvang__icontains=search_query)     # Tìm theo Địa chỉ
-        )
-    
-    filter_type = request.GET.get('filter', '') 
+    # 3. XỬ LÝ LỌC TRẠNG THÁI (Nên lọc cái này trước cho nhẹ)
     if filter_type == 'tam_tru':
-        # Lọc lấy danh sách Tạm Trú (Ví dụ: trangthai = 'TAM_TRU')
-        danh_sach = danh_sach.filter(trangthai='tam tru')
+        # Lấy cả 'tam tru' (không dấu) và 'Tạm trú' (có dấu)
+        danh_sach = danh_sach.filter(trangthai__in=['tam tru', 'Tạm trú'])
         
     elif filter_type == 'tam_vang':
-        # Lọc lấy danh sách Tạm Vắng (Ví dụ: trangthai = 'TAM_VANG')
-        danh_sach = danh_sach.filter(trangthai='tam vang')
-    # 4. Xử lý tìm kiếm (Nếu có nhập từ khóa)
+        danh_sach = danh_sach.filter(trangthai__in=['tam vang', 'Tạm vắng'])
+
+    # 4. XỬ LÝ TÌM KIẾM TỪ KHÓA (Logic chuẩn dùng Q Object)
     if search_query:
-        danh_sach = danh_sach.filter(nhankhau__hoten__icontains=search_query)
+        danh_sach = danh_sach.filter(
+            Q(nhankhau__hoten__icontains=search_query) |       # Tìm theo Tên
+            Q(nhankhau__cccd__icontains=search_query) |        # Tìm theo CCCD
+            Q(diachitamtrutamvang__icontains=search_query)     # Tìm theo Địa chỉ
+        )
+    # 5. Trả về kết quả
     context = {
         'danh_sach': danh_sach,
         'current_filter': filter_type,
