@@ -43,14 +43,9 @@
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
                                     <div>
-                                        <h2 class="text-dark mb-1 w-100 text-truncate font-weight-medium"><sup
-                                                class="set-doller">$</sup>18,306</h2>
-                                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Earnings of
-                                            Month
+                                        <h2 class="text-dark mb-1 w-100 text-truncate font-weight-medium">{{ doanhthu_formatted }} VND</h2>
+                                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Doanh Thu Tháng Này
                                         </h6>
-                                    </div>
-                                    <div class="ms-auto mt-md-3 mt-lg-0">
-                                        <span class="opacity-7 text-muted"><i data-feather="dollar-sign"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -121,10 +116,10 @@
                     <div class="col-lg-4 col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Net Income</h4>
+                                <h4 class="card-title">Doanh Thu Theo Tháng</h4>
                                 <div class="net-income mt-4 position-relative" style="height:294px;"></div>
                                 <ul class="list-inline text-center mt-5 mb-2">
-                                    <li class="list-inline-item text-muted fst-italic">Sales for this month</li>
+                                    <li class="list-inline-item text-muted fst-italic">Doanh thu 6 tháng gần nhất (triệu VND)</li>
                                 </ul>
                             </div>
                         </div>
@@ -198,5 +193,65 @@
                 </div>
             </div>
         </div>
+
+<script>
+    // Cập nhật biểu đồ Net Income với dữ liệu thực từ database
+    // Chạy sau khi tất cả script đã load xong để override biểu đồ mặc định
+    window.addEventListener('load', function() {
+        // Đợi một chút để đảm bảo dashboard1.min.js đã chạy xong
+        setTimeout(function() {
+            // Xóa biểu đồ cũ nếu có
+            $('.net-income').empty();
+            
+            var chartLabels = {{ chart_labels|safe }};
+            var chartSeries = {{ chart_series|safe }};
+            
+            // Debug: log ra console để kiểm tra
+            console.log('Chart Labels:', chartLabels);
+            console.log('Chart Series:', chartSeries);
+            
+            var data = {
+                labels: chartLabels,
+                series: chartSeries
+            };
+            
+            var options = {
+                axisX: {
+                    showGrid: false
+                },
+                axisY: {
+                    labelInterpolationFnc: function(value) {
+                        return value.toFixed(1) + 'M';
+                    }
+                },
+                seriesBarDistance: 1,
+                chartPadding: {
+                    top: 15,
+                    right: 15,
+                    bottom: 5,
+                    left: 0
+                },
+                plugins: [
+                    Chartist.plugins.tooltip()
+                ],
+                width: '100%'
+            };
+            
+            var responsiveOptions = [
+                ['screen and (max-width: 640px)', {
+                    seriesBarDistance: 5,
+                    axisX: {
+                        labelInterpolationFnc: function (value) {
+                            return value[0];
+                        }
+                    }
+                }]
+            ];
+            
+            // Khởi tạo lại biểu đồ với dữ liệu mới từ database
+            new Chartist.Bar('.net-income', data, options, responsiveOptions);
+        }, 500);
+    });
+</script>
 
 {% endblock home-content %}
