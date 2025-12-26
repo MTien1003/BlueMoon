@@ -12,7 +12,7 @@ def hoadon(request):
     Hỗ trợ tìm kiếm theo số hộ khẩu.
     """
     query = request.GET.get('q', '')
-    hoadons = NopTien.objects.select_related('hokhau', 'khoanthu').order_by('-id')
+    hoadons = NopTien.objects.select_related('hokhau', 'khoanthu').order_by('id')
     
     if query:
         # Tìm kiếm theo số hộ khẩu
