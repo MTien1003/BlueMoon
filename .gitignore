@@ -1,9 +1,12 @@
-# Django
-*.pyc
+# Python
 __pycache__/
+*.pyc
+*.pyo
+
+# Django
 db.sqlite3
 
-# Virtual env
+# Virtual environment
 venv/
 .env
 
