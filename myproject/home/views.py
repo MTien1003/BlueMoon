@@ -5,7 +5,15 @@ from datetime import datetime, date
 from calendar import month_abbr
 import json
 from nhankhau.services import get_total_nhankhau
+from tamtrutamvang.views import dem_tam_tru_tam_vang
 from noptien.models import NopTien
+
+def home(request):
+    total_nhankhau = get_total_nhankhau()
+    so_luong_tam_tru, so_luong_tam_vang = dem_tam_tru_tam_vang()
+    username = request.user.username
+    return render(request, 'index.html', {'total_nhankhau': total_nhankhau, 'username': username, 'so_luong_tam_tru': so_luong_tam_tru, 'so_luong_tam_vang': so_luong_tam_vang})
+
 
 
 def get_doanhthu_thang_nay():
