@@ -19,10 +19,10 @@ def danh_sach_tam_tru_tam_vang(request):
     # 3. XỬ LÝ LỌC TRẠNG THÁI (Nên lọc cái này trước cho nhẹ)
     if filter_type == 'tam_tru':
         # Lấy cả 'tam tru' (không dấu) và 'Tạm trú' (có dấu)
-        danh_sach = danh_sach.filter(trangthai__in=['tam tru', 'Tạm trú'])
+        danh_sach = danh_sach.filter(trangthai='Tạm trú')
         
     elif filter_type == 'tam_vang':
-        danh_sach = danh_sach.filter(trangthai__in=['tam vang', 'Tạm vắng'])
+        danh_sach = danh_sach.filter(trangthai='Tạm vắng')
 
     # 4. XỬ LÝ TÌM KIẾM TỪ KHÓA (Logic chuẩn dùng Q Object)
     if search_query:
