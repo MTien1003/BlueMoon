@@ -7,13 +7,15 @@ import json
 from nhankhau.services import get_total_nhankhau
 from tamtrutamvang.views import dem_tam_tru_tam_vang
 from noptien.models import NopTien
+from hokhau.models import HoKhau
+
 
 def home(request):
     total_nhankhau = get_total_nhankhau()
     so_luong_tam_tru, so_luong_tam_vang = dem_tam_tru_tam_vang()
     username = request.user.username
-    return render(request, 'index.html', {'total_nhankhau': total_nhankhau, 'username': username, 'so_luong_tam_tru': so_luong_tam_tru, 'so_luong_tam_vang': so_luong_tam_vang})
-
+    total_hokhau = HoKhau.objects.count()
+    return render(request, 'index.html', {'total_nhankhau': total_nhankhau, 'username': username, 'so_luong_tam_tru': so_luong_tam_tru, 'so_luong_tam_vang': so_luong_tam_vang, 'total_hokhau': total_hokhau})
 
 
 def get_doanhthu_thang_nay():
@@ -23,13 +25,13 @@ def get_doanhthu_thang_nay():
     from datetime import date
     today = date.today()
     start_of_month = date(today.year, today.month, 1)
-    
+
     # Tính ngày đầu tháng sau để làm end date
     if today.month == 12:
         end_of_month = date(today.year + 1, 1, 1)
     else:
         end_of_month = date(today.year, today.month + 1, 1)
-    
+
     total = NopTien.objects.filter(
         ngaynop__isnull=False,
         ngaynop__gte=start_of_month,
@@ -47,24 +49,24 @@ def get_doanhthu_theo_thang():
     """
     today = date.today()
     doanhthu_thang = {}
-    
+
     # Lấy 6 tháng gần nhất
     for i in range(5, -1, -1):  # 5 tháng trước đến tháng hiện tại
         month = today.month - i
         year = today.year
-        
+
         # Xử lý trường hợp tháng < 1 (lùi về năm trước)
         while month < 1:
             month += 12
             year -= 1
-        
+
         # Tính ngày đầu và cuối tháng
         start_of_month = date(year, month, 1)
         if month == 12:
             end_of_month = date(year + 1, 1, 1)
         else:
             end_of_month = date(year, month + 1, 1)
-        
+
         # Tính doanh thu tháng này
         total = NopTien.objects.filter(
             ngaynop__isnull=False,
@@ -73,11 +75,11 @@ def get_doanhthu_theo_thang():
         ).aggregate(
             total=Sum('sotien')
         )['total'] or 0
-        
+
         # Lấy tên tháng (Jan, Feb, ...)
         month_name = month_abbr[month]
         doanhthu_thang[month_name] = float(total)
-    
+
     return doanhthu_thang
 
 
@@ -95,13 +97,13 @@ def format_currency(value):
         return "0"
 
 
-
 def home(request):
     total_nhankhau = get_total_nhankhau()
     doanhthu_thang_nay = get_doanhthu_thang_nay()
     doanhthu_formatted = format_currency(doanhthu_thang_nay)
     doanhthu_theo_thang = get_doanhthu_theo_thang()
     username = request.user.username
+    total_hokhau = HoKhau.objects.count()
 
     # Chuyển đổi sang format cho biểu đồ: labels và series
     labels = list(doanhthu_theo_thang.keys())
@@ -114,8 +116,10 @@ def home(request):
         'doanhthu_formatted': doanhthu_formatted,
         'chart_labels': json.dumps(labels),
         'chart_series': json.dumps(series),
-        'username': username
+        'username': username,
+        'total_hokhau': total_hokhau
     })
+
 
 def firstpage(request):
     return render(request, 'firstpage.html')
