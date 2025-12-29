@@ -19,8 +19,8 @@
                 </div>
             </div>
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-6 col-lg-3">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3">
+                    <div class="col">
                         <div class="card border-end">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
@@ -38,7 +38,25 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-lg-3">
+                    <div class="col">
+                        <div class="card border-end">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        <div class="d-inline-flex align-items-center">
+                                            <h2 class="text-dark mb-1 font-weight-medium">{{ total_hokhau }}</h2>
+                                        </div>
+                                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Tổng Hộ Khẩu
+                                        </h6>
+                                    </div>
+                                    <div class="ms-auto mt-md-3 mt-lg-0">
+                                        <span class="opacity-7 text-muted"><i data-feather="home"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
                         <div class="card border-end ">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
@@ -51,48 +69,24 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-lg-3">
+                    <div class="col">
                         <div class="card border-end ">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
                                     <div>
                                         <div class="d-inline-flex align-items-center">
-                                            <h2 class="text-dark mb-1 font-weight-medium">{{ so_luong_tam_tru }}</h2>
+                                            <h2 class="text-dark mb-1 font-weight-medium">{{ so_luong_tam_tru }}/{{ so_luong_tam_vang }}</h2>
                                             
-                                            <span class="badge bg-success font-12 text-white font-weight-medium rounded-pill ms-2 d-md-none d-lg-block">
-                                                Nhân khẩu
+                                            
                                             </span> 
                                         </div>
 
                                         <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">
-                                            Đang tạm trú
+                                            Tạm trú/ Tạm vắng
                                         </h6>
                                     </div>
                                     <div class="ms-auto mt-md-3 mt-lg-0">
-                                        <span class="opacity-7 text-muted"><i data-feather="file-plus"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-3">
-                        <div class="card border-end ">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <div>
-                                        <div class="d-inline-flex align-items-center">
-                                            <h2 class="text-dark mb-1 font-weight-medium">{{ so_luong_tam_vang }}</h2>
-                                            
-                                            <span class="badge bg-warning font-12 text-white font-weight-medium rounded-pill ms-2 d-md-none d-lg-block">
-                                                Nhân khẩu
-                                            </span> 
-                                        </div>
-                                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">
-                                            Tạm vắng
-                                        </h6>
-                                    </div>
-                                    <div class="ms-auto mt-md-3 mt-lg-0">
-                                        <span class="opacity-7 text-muted"><i data-feather="file-minus"></i></span>
+                                        <span class="opacity-7 text-muted"><i data-feather="user-check"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -100,32 +94,24 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-4 col-md-12">
+                    <div class="col-lg-6 col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Total Sales</h4>
+                                <h4 class="card-title">Khoản Thu</h4>
                                 <div id="campaign-v2" class="mt-2" style="height:283px; width:100%;"></div>
                                 <ul class="list-style-none mb-0">
-                                    <li>
-                                        <i class="fas fa-circle text-primary font-10 me-2"></i>
-                                        <span class="text-muted">Direct Sales</span>
-                                        <span class="text-dark float-end font-weight-medium">$2346</span>
+                                    {% for stat in khoanthu_stats %}
+                                    <li{% if forloop.counter > 1 %} class="mt-3"{% endif %}>
+                                        <i class="fas fa-circle {% if stat.khoanthu__tenkhoanthu == 'Khác' %}text-white{% else %}{% cycle 'text-primary' 'text-danger' 'text-cyan' %}{% endif %} font-10 me-2" {% if stat.khoanthu__tenkhoanthu == 'Khác' %}style="color: #edf2f6 !important;"{% endif %}></i>
+                                        <span class="text-muted">{{ stat.khoanthu__tenkhoanthu }} ({{ stat.percentage|floatformat:1 }}%)</span>
+                                        <span class="text-dark float-end font-weight-medium">{{ stat.total|floatformat:0 }} VND</span>
                                     </li>
-                                    <li class="mt-3">
-                                        <i class="fas fa-circle text-danger font-10 me-2"></i>
-                                        <span class="text-muted">Referral Sales</span>
-                                        <span class="text-dark float-end font-weight-medium">$2108</span>
-                                    </li>
-                                    <li class="mt-3">
-                                        <i class="fas fa-circle text-cyan font-10 me-2"></i>
-                                        <span class="text-muted">Affiliate Sales</span>
-                                        <span class="text-dark float-end font-weight-medium">$1204</span>
-                                    </li>
+                                    {% endfor %}
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-12">
+                    <div class="col-lg-6 col-md-12">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Doanh Thu Theo Tháng</h4>
@@ -133,72 +119,6 @@
                                 <ul class="list-inline text-center mt-5 mb-2">
                                     <li class="list-inline-item text-muted fst-italic">Doanh thu 6 tháng gần nhất (triệu VND)</li>
                                 </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title mb-4">Earning by Location</h4>
-                                <div class="" style="height:180px">
-                                    <div id="visitbylocate" style="height:100%"></div>
-                                </div>
-                                <div class="row mb-3 align-items-center mt-1 mt-5">
-                                    <div class="col-4 text-end">
-                                        <span class="text-muted font-14">India</span>
-                                    </div>
-                                    <div class="col-5">
-                                        <div class="progress" style="height: 5px;">
-                                            <div class="progress-bar bg-primary" role="progressbar" style="width: 100%"
-                                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-3 text-end">
-                                        <span class="mb-0 font-14 text-dark font-weight-medium">28%</span>
-                                    </div>
-                                </div>
-                                <div class="row mb-3 align-items-center">
-                                    <div class="col-4 text-end">
-                                        <span class="text-muted font-14">UK</span>
-                                    </div>
-                                    <div class="col-5">
-                                        <div class="progress" style="height: 5px;">
-                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 74%"
-                                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-3 text-end">
-                                        <span class="mb-0 font-14 text-dark font-weight-medium">21%</span>
-                                    </div>
-                                </div>
-                                <div class="row mb-3 align-items-center">
-                                    <div class="col-4 text-end">
-                                        <span class="text-muted font-14">USA</span>
-                                    </div>
-                                    <div class="col-5">
-                                        <div class="progress" style="height: 5px;">
-                                            <div class="progress-bar bg-cyan" role="progressbar" style="width: 60%"
-                                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-3 text-end">
-                                        <span class="mb-0 font-14 text-dark font-weight-medium">18%</span>
-                                    </div>
-                                </div>
-                                <div class="row align-items-center">
-                                    <div class="col-4 text-end">
-                                        <span class="text-muted font-14">China</span>
-                                    </div>
-                                    <div class="col-5">
-                                        <div class="progress" style="height: 5px;">
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: 50%"
-                                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-3 text-end">
-                                        <span class="mb-0 font-14 text-dark font-weight-medium">12%</span>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -263,6 +183,44 @@
             // Khởi tạo lại biểu đồ với dữ liệu mới từ database
             new Chartist.Bar('.net-income', data, options, responsiveOptions);
         }, 500);
+    });
+
+    // Biểu đồ Khoản Thu
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            var khoanthuLabels = {{ khoanthu_labels|safe }};
+            var khoanthuSeries = {{ khoanthu_series|safe }};
+            
+            if (khoanthuLabels.length > 0) {
+                // Xóa biểu đồ cũ
+                $('#campaign-v2').empty();
+                
+                // Tạo columns cho C3
+                var columns = khoanthuLabels.map((label, i) => [label, khoanthuSeries[i]]);
+                
+                // Tạo biểu đồ donut với dữ liệu động
+                var chart = c3.generate({
+                    bindto: '#campaign-v2',
+                    data: {
+                        columns: columns,
+                        type: 'donut',
+                        tooltip: { show: true }
+                    },
+                    donut: {
+                        label: { 
+                            show: false
+                        },
+                        title: "Khoản Thu",
+                        width: 18
+                    },
+                    legend: { hide: true },
+                    color: { pattern: ["#5f76e8", "#ff4f70", "#01caf1", "#edf2f6"] }
+                });
+                
+                // Tùy chỉnh font
+                d3.select('#campaign-v2 .c3-chart-arcs-title').style('font-family', 'Rubik');
+            }
+        }, 1000);
     });
 </script>
 

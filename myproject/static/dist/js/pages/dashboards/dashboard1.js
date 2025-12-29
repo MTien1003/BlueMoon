@@ -7,7 +7,7 @@ $(function () {
     var chart1 = c3.generate({
         bindto: '#campaign-v2',
         data: {
-            columns: [
+            columns: window.khoanthuColumns || [
                 ['Direct Sales', 25],
                 ['Referral Sales', 15],
                 ['Afilliate Sales', 10],
@@ -21,9 +21,12 @@ $(function () {
         },
         donut: {
             label: {
-                show: false
+                show: true,
+                format: function (value, ratio) {
+                    return (ratio * 100).toFixed(0) + '%';
+                }
             },
-            title: 'Sales',
+            title: window.khoanthuTitle || 'Sales',
             width: 18
         },
 
@@ -39,6 +42,9 @@ $(function () {
             ]
         }
     });
+
+    // Set global để có thể cập nhật sau
+    window.chart1 = chart1;
 
     d3.select('#campaign-v2 .c3-chart-arcs-title').style('font-family', 'Rubik');
 

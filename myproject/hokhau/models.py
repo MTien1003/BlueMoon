@@ -26,6 +26,27 @@ class ThanhVienHoKhau(models.Model):
     quanhevoichuho = models.CharField(max_length=100)
     ngaythemnhankhau = models.DateField()
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.update_sothanhvien()
+
+    def delete(self, *args, **kwargs):
+        hokhau = self.hokhau
+        super().delete(*args, **kwargs)
+        self.update_sothanhvien(hokhau)
+
+    def update_sothanhvien(self, hokhau=None):
+        if hokhau is None:
+            hokhau = self.hokhau
+        # Số thành viên = số ThanhVienHoKhau + 1 (chu ho)
+        hokhau.sothanhvien = ThanhVienHoKhau.objects.filter(hokhau=hokhau).count() + 1
+        hokhau.save()
+        # Cập nhật sotien cho NopTien liên quan
+        from noptien.models import NopTien
+        for noptien in NopTien.objects.filter(hokhau=hokhau):
+            noptien.sotien = noptien.khoanthu.sotien * hokhau.sothanhvien
+            noptien.save()
+
     def __str__(self):
         return f"Thanh vien: {self.nhankhau.hoten} - Quan he voi chu ho: {self.quanhevoichuho}"
 
@@ -34,7 +55,7 @@ class LichSuThayDoiHoKhau(models.Model):
     hokhau = models.ForeignKey(HoKhau, on_delete=models.CASCADE)
     nhankhau = models.ForeignKey(NhanKhau, on_delete=models.PROTECT)
     loaithaydoi = models.IntegerField(
-        choices=[(1, 'Them thanh vien'), (2, 'Xoa thanh vien')])
+    choices=[(1, 'Them thanh vien'), (2, 'Xoa thanh vien')])
     ngaythaydoi = models.DateTimeField()
 
     def __str__(self):
