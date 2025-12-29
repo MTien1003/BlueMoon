@@ -74,7 +74,9 @@ def in_phieu_tttv(request, id):
     # Trả về giao diện in riêng biệt
     return render(request, 'tam_tru_tam_vang/print.html', {'item': ho_so})
 
-def dem_tam_tru_tam_vang():
-    so_luong_tam_tru = TamTruTamVang.objects.filter(trangthai__in=['tam tru', 'Tạm trú']).count()
-    so_luong_tam_vang = TamTruTamVang.objects.filter(trangthai__in=['tam vang', 'Tạm vắng']).count()
-    return so_luong_tam_tru, so_luong_tam_vang
+def dem_tam_tru():
+    so_luong_tam_tru = TamTruTamVang.objects.filter(trangthai='Tạm trú').count()
+    return so_luong_tam_tru
+def dem_tam_vang():
+    so_luong_tam_vang = TamTruTamVang.objects.filter(trangthai='Tạm vắng').count()
+    return so_luong_tam_vang

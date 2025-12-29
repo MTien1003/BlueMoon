@@ -91,7 +91,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'bluemoon',
         'USER': 'postgres',
-        'PASSWORD': 'vanthinh123',  # đổi thành mật khẩu bạn đã đặ
+        'PASSWORD': 'Trunghl3',  # đổi thành mật khẩu bạn đã đặ
         'HOST': 'localhost',
         'PORT': '5432',
     }
