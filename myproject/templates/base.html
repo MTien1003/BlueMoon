@@ -85,22 +85,15 @@
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="{% url 'home' %}"
                                 aria-expanded="false"><i data-feather="home" class="feather-icon"></i><span
                                     class="hide-menu">Trang chủ</span></a></li>
+                        
                         <li class="list-divider"></li>
                         <li class="nav-small-cap"><span class="hide-menu">Ứng dụng</span></li>
+                        {% if request.user.vaitro == 'Tổ trưởng' %}
                         <li class="sidebar-item"> <a class="sidebar-link" href="{% url 'nhankhau' %}"
                                 aria-expanded="false"><i data-feather="users" class="feather-icon"></i><span
                                     class="hide-menu">Nhân khẩu
                                 </span></a>
                         </li>
-                        <li class="sidebar-item"> <a class="sidebar-link" href="{% url 'khoanthu' %}"
-                                aria-expanded="false"><i data-feather="dollar-sign" class="feather-icon"></i><span
-                                    class="hide-menu">Khoản thu
-                                </span></a>
-                        </li>
-                        <li class="sidebar-item"> <a class="sidebar-link" href="{% url 'hoadon' %}"
-                                aria-expanded="false"><i data-feather="file-text" class="feather-icon"></i><span
-                                    class="hide-menu">Nộp tiền
-                                </span></a>
                         <li class="sidebar-item"> 
                             <a class="sidebar-link" href="{% url 'danh_sach_tttv' %}" aria-expanded="false">
                                 <i data-feather="user-check" class="feather-icon"></i>
@@ -113,6 +106,18 @@
                                 <span class="hide-menu">Hộ khẩu</span>
                             </a>
                         </li>
+                        {% endif %}
+                        {% if request.user.vaitro == 'Kế toán' %}
+                        <li class="sidebar-item"> <a class="sidebar-link" href="{% url 'khoanthu' %}"
+                                aria-expanded="false"><i data-feather="dollar-sign" class="feather-icon"></i><span
+                                    class="hide-menu">Khoản thu
+                                </span></a>
+                        </li>
+                        <li class="sidebar-item"> <a class="sidebar-link" href="{% url 'hoadon' %}"
+                                aria-expanded="false"><i data-feather="file-text" class="feather-icon"></i><span
+                                    class="hide-menu">Nộp tiền
+                                </span></a>
+                        {% endif %}
                         <li class="list-divider"></li>
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="{% url 'logout' %}"
                                 aria-expanded="false"><i data-feather="log-out" class="feather-icon"></i><span

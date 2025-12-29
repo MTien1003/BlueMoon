@@ -55,6 +55,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'users.middleware.ClearMessagesMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -71,6 +72,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'users.context_processors.messages',
             ],
         },
     },
@@ -91,7 +93,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'bluemoon',
         'USER': 'postgres',
-        'PASSWORD': 'truong2005',  # đổi thành mật khẩu bạn đã đặ
+        'PASSWORD': '123456',  # đổi thành mật khẩu bạn đã đặ
         'HOST': 'localhost',
         'PORT': '5432',
     }

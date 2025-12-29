@@ -35,7 +35,7 @@ def create_khoanthu(request):
                     hokhau=hokhau,
                     khoanthu=khoanthu,
                     nguoinoptien=hokhau.chuhokhau.hoten if hasattr(hokhau, "chuhokhau") and hokhau.chuhokhau else "Chưa nộp",
-                    sotien=khoanthu.sotien,
+                    sotien=khoanthu.sotien * hokhau.sothanhvien,  # Nhân với số thành viên
                     ngaynop=None,  # Để trống, sẽ cập nhật khi xác nhận thanh toán
                 )
         
@@ -47,7 +47,13 @@ def create_khoanthu(request):
 def xem_khoanthu(request, id):
     """Xem chi tiết một khoản thu."""
     khoanthu = get_object_or_404(KhoanThu, id=id)
-    return render(request, 'xem_khoanthu.html', {'khoanthu': khoanthu})
+    da_dong = NopTien.objects.filter(khoanthu=khoanthu, ngaynop__isnull=False).count()
+    chua_dong = NopTien.objects.filter(khoanthu=khoanthu, ngaynop__isnull=True).count()
+    return render(request, 'xem_khoanthu.html', {
+        'khoanthu': khoanthu,
+        'da_dong': da_dong,
+        'chua_dong': chua_dong
+    })
 
 
 def update_khoanthu(request, id):
@@ -67,6 +73,12 @@ def update_khoanthu(request, id):
         khoanthu.sotien = request.POST['sotien']
         khoanthu.save()
         
+        # Cập nhật sotien cho các NopTien liên quan
+        noptien_list = NopTien.objects.filter(khoanthu=khoanthu)
+        for noptien in noptien_list:
+            noptien.sotien = khoanthu.sotien * noptien.hokhau.sothanhvien
+            noptien.save()
+        
         # Nếu chuyển từ không bắt buộc sang bắt buộc, tạo hóa đơn cho các hộ khẩu chưa có
         if not was_batbuoc and khoanthu.batbuoc:
             hokhaus = HoKhau.objects.all()
@@ -77,7 +89,7 @@ def update_khoanthu(request, id):
                         hokhau=hokhau,
                         khoanthu=khoanthu,
                         nguoinoptien=hokhau.chuhokhau.hoten if hokhau.chuhokhau else "Chưa nộp",
-                        sotien=khoanthu.sotien,
+                        sotien=khoanthu.sotien * hokhau.sothanhvien,
                         ngaynop=None,  # Để trống, sẽ cập nhật khi xác nhận thanh toán
                     )
         

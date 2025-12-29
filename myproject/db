@@ -18,17 +18,16 @@ VALUES
 INSERT INTO hokhau_hokhau
 (sohokhau, sonha, duong, phuong, quan, ngaylamhokhau, sothanhvien, chuhokhau_id, ghichu)
 VALUES
-('HK001','10','Trần Phú','Ba Đình','Hà Nội','2010-01-01',3,1,NULL),
-('HK002','22','Nguyễn Trãi','Thanh Xuân','Hà Nội','2012-05-01',2,2,NULL),
-('HK003','35','Lê Lợi','Hải Châu','Đà Nẵng','2015-07-01',4,3,NULL),
-('HK004','18','Pasteur','Quận 3','TP.HCM','2018-03-01',3,4,NULL),
-('HK005','50','Hoàng Diệu','Hồng Bàng','Hải Phòng','2016-09-01',2,5,NULL),
-('HK006','99','Cầu Giấy','Cầu Giấy','Hà Nội','2019-06-01',3,6,NULL),
-('HK007','12','Kim Mã','Ba Đình','Hà Nội','2020-08-01',2,7,NULL),
-('HK008','8','Hai Bà Trưng','Hoàn Kiếm','Hà Nội','2017-04-01',3,8,NULL),
-('HK009','77','Phạm Văn Đồng','Bắc Từ Liêm','Hà Nội','2014-11-01',2,9,NULL),
-('HK010','66','Điện Biên Phủ','Quận 10','TP.HCM','2021-02-01',2,10,NULL);
-
+('HK00001','10','Trần Phú','Ba Đình','Hà Nội','2010-01-01',3,1,NULL),
+('HK00002','22','Nguyễn Trãi','Thanh Xuân','Hà Nội','2012-05-01',2,2,NULL),
+('HK00003','35','Lê Lợi','Hải Châu','Đà Nẵng','2015-07-01',4,3,NULL),
+('HK00004','18','Pasteur','Quận 3','TP.HCM','2018-03-01',3,4,NULL),
+('HK00005','50','Hoàng Diệu','Hồng Bàng','Hải Phòng','2016-09-01',2,5,NULL),
+('HK00006','99','Cầu Giấy','Cầu Giấy','Hà Nội','2019-06-01',3,6,NULL),
+('HK00007','12','Kim Mã','Ba Đình','Hà Nội','2020-08-01',2,7,NULL),
+('HK00008','8','Hai Bà Trưng','Hoàn Kiếm','Hà Nội','2017-04-01',3,8,NULL),
+('HK00009','77','Phạm Văn Đồng','Bắc Từ Liêm','Hà Nội','2014-11-01',2,9,NULL),
+('HK00010','66','Điện Biên Phủ','Quận 10','TP.HCM','2021-02-01',2,10,NULL);
 3️⃣ THÀNH VIÊN HỘ KHẨU – hokhau_thanhvienhokhau
 INSERT INTO hokhau_thanhvienhokhau
 (hokhau_id, nhankhau_id, quanhevoichuho, ngaythemnhankhau)

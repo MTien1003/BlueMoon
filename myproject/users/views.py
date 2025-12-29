@@ -31,11 +31,24 @@ def login_view(request):
             return redirect('home')
         else:
             messages.error(request, 'Invalid username or password')
+    # Clear any leftover messages from session
+    from django.contrib.messages import get_messages
+    storage = get_messages(request)
+    storage.used = True
+    request.session.pop('_messages', None)
+    request.session.save()
     return render(request, 'authentication-login1.html')
 
 def logout_view(request):
     from django.contrib.auth import logout
+    from django.contrib import messages
     logout(request)
+    # Clear any remaining messages from session
+    from django.contrib.messages import get_messages
+    storage = get_messages(request)
+    storage.used = True
+    request.session.pop('_messages', None)
+    request.session.save()
     return redirect('login')
 
 
