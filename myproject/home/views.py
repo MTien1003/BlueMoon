@@ -5,7 +5,7 @@ from datetime import datetime, date
 from calendar import month_abbr
 import json
 from nhankhau.services import get_total_nhankhau
-from tamtrutamvang.views import dem_tam_tru, dem_tam_vang
+from tamtrutamvang.views import dem_tam_tru_tam_vang
 from noptien.models import NopTien
 
 def home(request):
@@ -115,8 +115,7 @@ def home(request):
         'username': username
     })
 def tam_tru_tam_vang_stats(request):
-    so_luong_tam_tru = dem_tam_tru()
-    so_luong_tam_vang = dem_tam_vang()
+    so_luong_tam_tru, so_luong_tam_vang = dem_tam_tru_tam_vang()
     return render(request, 'index.html', {'so_luong_tam_tru': so_luong_tam_tru, 'so_luong_tam_vang': so_luong_tam_vang})
 def firstpage(request):
     return render(request, 'firstpage.html')

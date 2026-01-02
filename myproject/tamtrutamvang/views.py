@@ -6,6 +6,7 @@ from django.contrib import messages
 from .models import TamTruTamVang
 from .forms import TamTruTamVangForm
 from django.utils import timezone
+from datetime import date
 
 # 1. Hàm xem danh sách
 def danh_sach_tam_tru_tam_vang(request):
@@ -74,9 +75,36 @@ def in_phieu_tttv(request, id):
     # Trả về giao diện in riêng biệt
     return render(request, 'tam_tru_tam_vang/print.html', {'item': ho_so})
 
-def dem_tam_tru():
-    so_luong_tam_tru = TamTruTamVang.objects.filter(trangthai='Tạm trú').count()
-    return so_luong_tam_tru
-def dem_tam_vang():
-    so_luong_tam_vang = TamTruTamVang.objects.filter(trangthai='Tạm vắng').count()
-    return so_luong_tam_vang
+def dem_tam_tru_tam_vang():
+    """
+    Tính số lượng dựa trên trạng thái MỚI NHẤT của từng người tính đến hôm nay.
+    """
+    today = date.today()
+    
+    # 1. Lấy tất cả hồ sơ trong quá khứ và hiện tại (loại bỏ tương lai)
+    # Sắp xếp theo thời gian tăng dần (cũ trước, mới sau)
+    tat_ca_ho_so = TamTruTamVang.objects.filter(
+        thoigian__lte=today
+    ).order_by('thoigian', 'id') 
+    # Thêm 'id' vào order_by để nếu cùng ngày thì bản ghi nhập sau sẽ được tính là mới nhất
+
+    # 2. Dùng Dictionary để lưu trạng thái cuối cùng của từng nhân khẩu
+    # Key = ID nhân khẩu, Value = Trạng thái ('Tạm trú' hoặc 'Tạm vắng')
+    trang_thai_hien_tai = {}
+
+    for ho_so in tat_ca_ho_so:
+        # Vì vòng lặp chạy theo thời gian từ cũ -> mới
+        # Nên trạng thái sau cùng sẽ ghi đè trạng thái trước đó
+        trang_thai_hien_tai[ho_so.nhankhau_id] = ho_so.trangthai
+
+    # 3. Đếm kết quả từ trạng thái cuối cùng
+    dem_tam_tru = 0
+    dem_tam_vang = 0
+
+    for trangthai in trang_thai_hien_tai.values():
+        if trangthai == 'Tạm trú':
+            dem_tam_tru += 1
+        elif trangthai == 'Tạm vắng':
+            dem_tam_vang += 1
+            
+    return dem_tam_tru, dem_tam_vang
